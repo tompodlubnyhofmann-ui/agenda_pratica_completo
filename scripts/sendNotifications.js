@@ -25,58 +25,63 @@ admin.initializeApp({
 const db = admin.firestore();
 const messaging = admin.messaging();
 
+function addDias(dateStr, dias) {
+  const parts = dateStr.split('/');
+  const d = new Date(parts[2], parts[1] - 1, parts[0]);
+  d.setDate(d.getDate() + dias);
+  return d.toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+}
+
 async function main() {
   const hoje = new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' });
-  console.log(`🔔 Iniciando envio de notificações para o dia ${hoje}`);
+  console.log('Iniciando envio de notificacoes para o dia ' + hoje);
 
   const usersSnapshot = await db.collection('users').get();
   let sent = 0;
 
   for (const userDoc of usersSnapshot.docs) {
     const userId = userDoc.id;
-    const eventsSnapshot = await db
-      .collection('users')
-      .doc(userId)
-      .collection('events')
-      .get();
+    const eventsSnapshot = await db.collection('users').doc(userId).collection('events').get();
 
     for (const eventDoc of eventsSnapshot.docs) {
       const eventData = eventDoc.data();
-      let ehHoje = false;
+      let deveNotificar = false;
+      let mensagemAviso = '';
 
       if (eventData.type === 'aniversario') {
         const [month, day] = eventData.birthdayKey ? eventData.birthdayKey.split('-') : [null, null];
         const hojeParts = hoje.split('/');
-        const hojeDay = hojeParts[0];
-        const hojeMonth = hojeParts[1];
-        ehHoje = day === hojeDay && month === hojeMonth;
+        deveNotificar = day === hojeParts[0] && month === hojeParts[1];
+        mensagemAviso = 'Hoje!';
       } else {
-        ehHoje = eventData.date === hoje;
+        const advance = parseInt(eventData.advance) || 0;
+        if (eventData.date === hoje) {
+          deveNotificar = true;
+          mensagemAviso = 'Hoje!';
+        } else if (advance > 0) {
+          const dataAviso = addDias(eventData.date, -advance);
+          if (dataAviso === hoje) {
+            deveNotificar = true;
+            mensagemAviso = advance + ' dia(s) antes';
+          }
+        }
       }
 
-      if (!ehHoje) continue;
+      if (!deveNotificar) continue;
 
-      const tokensSnapshot = await db
-        .collection('users')
-        .doc(userId)
-        .collection('fcmTokens')
-        .where('active', '==', true)
-        .get();
+      const tokensSnapshot = await db.collection('users').doc(userId).collection('fcmTokens').where('active', '==', true).get();
 
       for (const tokenDoc of tokensSnapshot.docs) {
         const token = tokenDoc.id;
-
         try {
           await messaging.send({
             token,
             notification: {
-              title: 'Agenda Prática',
-              body: `${eventData.title || 'Lembrete'} - ${eventData.time || 'Sem horário definido'}`
+              title: 'Agenda Pratica',
+              body: (eventData.title || 'Lembrete') + ' - ' + (eventData.time || 'Sem horario') + ' (' + mensagemAviso + ')'
             },
             webpush: {
-              fcmOptions: {
-                link: 'https://agenda-pratica2.web.app'
-              },
+              fcmOptions: { link: 'https://agenda-pratica2.web.app' },
               notification: {
                 icon: 'https://agenda-pratica2.web.app/icon-192.png',
                 badge: 'https://agenda-pratica2.web.app/icon-192.png',
@@ -84,22 +89,19 @@ async function main() {
               }
             }
           });
-
           sent += 1;
-          console.log(`✅ Notificação enviada para ${token.substring(0, 16)}...`);
+          console.log('Notificacao enviada: ' + token.substring(0, 16));
         } catch (error) {
           if (error.code === 'messaging/registration-token-not-registered') {
             await tokenDoc.ref.delete();
-            console.log(`🗑️ Token inválido removido: ${token.substring(0, 16)}...`);
           } else {
-            console.error('❌ Erro ao enviar notificação:', error.message);
+            console.error('Erro ao enviar:', error.message);
           }
         }
       }
     }
   }
-
-  console.log(`✨ Envio finalizado. Total de notificações enviadas: ${sent}`);
+  console.log('Envio finalizado. Total: ' + sent);
 }
 
 main().catch(error => {
