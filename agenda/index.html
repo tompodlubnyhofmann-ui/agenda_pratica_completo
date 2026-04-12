@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1D9E75">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Agenda Prática">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Agenda Prática</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#FFFFFF;--surface:#F5F5F3;--surface2:#EBEBEA;
+  --border:rgba(0,0,0,0.10);--border2:rgba(0,0,0,0.18);
+  --text:#0A0A0A;--text2:#4A4A47;--text3:#8A8A85;
+  --accent:#1D9E75;--accent-bg:#E1F5EE;--accent-dark:#0F6E56;
+  --danger:#D93025;--danger-bg:#FDE8E7;
+  --warning:#B45309;--warning-bg:#FEF3C7;
+  --info:#1A6FBF;--info-bg:#DBEAFE;
+  --purple:#5B4FCF;--purple-bg:#EDE9FE;
+  --font:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
+}
+.dark{
+  --bg:#000000;--surface:#111111;--surface2:#1C1C1C;
+  --border:rgba(255,255,255,0.10);--border2:rgba(255,255,255,0.20);
+  --text:#FFFFFF;--text2:#BBBBBB;--text3:#666666;
+  --accent:#22C48A;--accent-bg:#003D28;--accent-dark:#22C48A;
+  --danger:#FF6B6B;--danger-bg:#3D0C0C;
+  --warning:#FBBF24;--warning-bg:#3D2A00;
+  --info:#60A5FA;--info-bg:#0D2547;
+  --purple:#A78BFA;--purple-bg:#1E1547;
+}
+html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--text);-webkit-tap-highlight-color:transparent;}
+.app{display:flex;flex-direction:column;min-height:100vh;max-width:540px;margin:0 auto;background:var(--bg);}
+
+/* TOPBAR */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;background:var(--bg);position:sticky;top:0;z-index:10;border-bottom:0.5px solid var(--border);}
+.app-logo{display:flex;align-items:center;gap:8px;}
+.app-logo-icon{width:30px;height:30px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.app-title{font-size:16px;font-weight:600;letter-spacing:-0.3px;color:var(--text);}
+.topbar-right{display:flex;gap:6px;}
+.icon-btn{width:34px;height:34px;border-radius:8px;border:0.5px solid var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--text2);}
+.icon-btn:active{background:var(--surface);}
+
+/* ADD BUTTON */
+.add-event-bar{padding:10px 16px 0;}
+.add-event-btn{width:100%;padding:11px;border-radius:10px;background:var(--accent);border:none;color:#fff;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;}
+.add-event-btn:active{opacity:0.85;}
+
+/* CALENDAR */
+.cal-section{padding:12px 16px 0;}
+.cal-nav-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.cal-month-title{font-size:15px;font-weight:600;color:var(--text);}
+.cal-nav-btns{display:flex;gap:4px;}
+.cal-nav-btn{width:30px;height:30px;border-radius:7px;border:0.5px solid var(--border2);background:transparent;cursor:pointer;color:var(--text2);font-size:15px;display:flex;align-items:center;justify-content:center;font-family:var(--font);}
+.cal-nav-btn:active{background:var(--surface);}
+.cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:4px;}
+.cal-weekday{text-align:center;font-size:10px;font-weight:600;color:var(--text3);padding:3px 0;text-transform:uppercase;letter-spacing:0.3px;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+.cal-day{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;position:relative;user-select:none;-webkit-user-select:none;}
+.cal-day:active{background:var(--surface2);}
+.day-num{font-size:13px;font-weight:500;color:var(--text);width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid transparent;}
+.dark .cal-day:not(.other-month) .day-num{border-color:rgba(255,255,255,0.18);color:#FFFFFF;}
+.cal-day.today .day-num{background:var(--accent);color:#fff !important;border-color:var(--accent) !important;border-radius:50%;}
+.cal-day.selected .day-num{background:var(--accent-bg);color:var(--accent-dark);border-color:var(--accent);}
+.dark .cal-day.selected .day-num{color:var(--accent);}
+.cal-day.other-month .day-num{color:var(--text3) !important;border-color:transparent !important;}
+.day-dots{display:flex;gap:2px;margin-top:2px;justify-content:center;flex-wrap:wrap;}
+.dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.d-work{background:var(--info);}
+.d-bday{background:var(--purple);}
+.d-exam{background:var(--danger);}
+.d-other{background:var(--warning);}
+
+/* DIVIDER */
+.section-divider{height:0.5px;background:var(--border);margin:14px 0 0;}
+
+/* TODO SECTION */
+.todo-section{padding:12px 16px;flex:1;}
+.todo-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.todo-section-title{font-size:13px;font-weight:600;color:var(--text);}
+.todo-filter-row{display:flex;gap:5px;overflow-x:auto;margin-bottom:10px;padding-bottom:2px;}
+.todo-filter-row::-webkit-scrollbar{display:none;}
+.fchip{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:500;border:0.5px solid var(--border2);cursor:pointer;white-space:nowrap;background:transparent;color:var(--text2);font-family:var(--font);}
+.fchip.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.todo-search{display:flex;align-items:center;gap:6px;border:0.5px solid var(--border2);border-radius:8px;padding:7px 10px;background:var(--surface);margin-bottom:10px;}
+.todo-search input{border:none;background:transparent;font-family:var(--font);font-size:13px;color:var(--text);flex:1;outline:none;}
+.todo-search input::placeholder{color:var(--text3);}
+.todo-empty{text-align:center;padding:32px 16px;color:var(--text3);font-size:13px;line-height:1.6;}
+.group-label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;margin:10px 0 6px;}
+.group-label.overdue{color:var(--danger);}
+.todo-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:10px;border:0.5px solid var(--border);background:var(--surface);margin-bottom:6px;cursor:pointer;}
+.todo-item:active{border-color:var(--border2);}
+.todo-item.done{opacity:0.45;}
+.check-wrap{flex-shrink:0;margin-top:1px;}
+.check-circle{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;color:transparent;font-size:11px;}
+.todo-item.done .check-circle{background:var(--accent);border-color:var(--accent);color:#fff;}
+.todo-body{flex:1;min-width:0;}
+.todo-text{font-size:13px;font-weight:500;color:var(--text);line-height:1.4;}
+.todo-item.done .todo-text{text-decoration:line-through;}
+.todo-meta{display:flex;align-items:center;gap:5px;margin-top:4px;flex-wrap:wrap;}
+.tmeta-date{font-size:10px;color:var(--text3);font-family:var(--mono);}
+.tbadge{font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;}
+.tbadge-alta{background:var(--danger-bg);color:var(--danger);}
+.tbadge-media{background:var(--warning-bg);color:var(--warning);}
+.tbadge-baixa{background:var(--accent-bg);color:var(--accent-dark);}
+.tbadge-repeat{background:var(--surface2);color:var(--text3);}
+
+/* MODALS */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;display:none;align-items:flex-end;justify-content:center;}
+.overlay.open{display:flex;}
+.sheet{background:var(--bg);border-radius:20px 20px 0 0;padding:0 0 max(env(safe-area-inset-bottom),20px);width:100%;max-width:540px;max-height:92vh;overflow-y:auto;}
+.sheet-handle{width:36px;height:4px;background:var(--border2);border-radius:2px;margin:14px auto 0;}
+.sheet-content{padding:16px 20px 8px;}
+.sheet-title{font-size:16px;font-weight:600;color:var(--text);margin-bottom:16px;}
+.form-group{margin-bottom:14px;}
+.form-label{font-size:12px;font-weight:500;color:var(--text2);margin-bottom:6px;display:block;}
+.form-input,.form-select,.form-textarea{width:100%;padding:10px 12px;border-radius:9px;border:0.5px solid var(--border2);background:var(--surface);font-family:var(--font);font-size:14px;color:var(--text);outline:none;-webkit-appearance:none;appearance:none;}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--accent);}
+.form-textarea{resize:vertical;min-height:80px;line-height:1.5;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.sheet-actions{display:flex;gap:8px;padding:12px 20px 0;}
+.btn-primary{flex:1;padding:12px;border-radius:10px;background:var(--accent);border:none;color:#fff;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;}
+.btn-secondary{padding:12px 16px;border-radius:10px;border:0.5px solid var(--border2);background:transparent;color:var(--text2);font-family:var(--font);font-size:14px;cursor:pointer;}
+.btn-danger{padding:12px 16px;border-radius:10px;border:none;background:var(--danger-bg);color:var(--danger);font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;}
+
+/* BIRTHDAY NOTE */
+.bday-note{background:var(--purple-bg);color:var(--purple);border-radius:9px;padding:9px 12px;font-size:12px;line-height:1.5;margin-bottom:14px;}
+
+/* EVENT DETAIL SHEET */
+.detail-type-bar{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+.detail-dot{width:10px;height:10px;border-radius:50%;}
+.detail-type-label{font-size:12px;font-weight:600;color:var(--text2);}
+.detail-text{font-size:15px;font-weight:500;color:var(--text);line-height:1.5;margin-bottom:14px;}
+.detail-meta{display:flex;flex-direction:column;gap:6px;margin-bottom:18px;}
+.detail-meta-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);}
+.detail-meta-icon{font-size:14px;}
+.detail-actions{display:flex;gap:8px;padding:0 20px 8px;}
+
+/* CONFIRM DIALOG */
+.confirm-box{background:var(--bg);border-radius:16px;padding:20px;width:85%;max-width:320px;margin:auto;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:200;border:0.5px solid var(--border2);}
+.confirm-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px;}
+.confirm-msg{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:18px;}
+.confirm-actions{display:flex;gap:8px;}
+.confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:199;display:none;}
+.confirm-overlay.open{display:block;}
+
+/* NOTIF BANNER */
+.notif-banner{background:var(--surface);border:0.5px solid var(--border2);border-radius:10px;padding:12px 14px;margin:0 16px 12px;display:flex;align-items:center;gap:10px;}
+.notif-banner-text{flex:1;font-size:12px;color:var(--text2);line-height:1.4;}
+.notif-banner-btn{padding:6px 12px;border-radius:7px;background:var(--accent);border:none;color:#fff;font-family:var(--font);font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;}
+
+/* DAY EVENTS PREVIEW */
+.day-events-preview{background:var(--surface);border-top:0.5px solid var(--border);padding:10px 16px;}
+.dep-title{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:6px;}
+.dep-chip{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;background:var(--bg);border:0.5px solid var(--border);margin-bottom:5px;cursor:pointer;}
+.dep-chip:active{background:var(--surface2);}
+.dep-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.dep-text{font-size:13px;color:var(--text);flex:1;}
+.dep-arrow{font-size:12px;color:var(--text3);}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="app-logo">
+      <div class="app-logo-icon">📅</div>
+      <span class="app-title">Agenda Prática</span>
+    </div>
+    <div class="topbar-right">
+      <button class="icon-btn" id="notifBtn" title="Notificações">🔔</button>
+      <button class="icon-btn" id="themeBtn">☀</button>
+    </div>
+  </div>
+
+  <!-- NOTIFICATION BANNER (shown if permission not granted) -->
+  <div class="notif-banner" id="notifBanner" style="display:none;margin-top:10px;">
+    <span style="font-size:20px">🔔</span>
+    <span class="notif-banner-text">Ative as notificações para receber lembretes dos seus eventos</span>
+    <button class="notif-banner-btn" id="enableNotifBtn">Ativar</button>
+  </div>
+
+  <!-- ADD BUTTON -->
+  <div class="add-event-bar">
+    <button class="add-event-btn" id="openAddModal">
+      <span style="font-size:18px;line-height:1">+</span> Adicionar evento
+    </button>
+  </div>
+
+  <!-- CALENDAR -->
+  <div class="cal-section">
+    <div class="cal-nav-row">
+      <span class="cal-month-title" id="calTitle"></span>
+      <div class="cal-nav-btns">
+        <button class="cal-nav-btn" id="prevMonth">‹</button>
+        <button class="cal-nav-btn" id="todayBtn" style="font-size:11px;font-weight:600;width:auto;padding:0 8px;">Hoje</button>
+        <button class="cal-nav-btn" id="nextMonth">›</button>
+      </div>
+    </div>
+    <div class="cal-weekdays">
+      <div class="cal-weekday">Dom</div><div class="cal-weekday">Seg</div>
+      <div class="cal-weekday">Ter</div><div class="cal-weekday">Qua</div>
+      <div class="cal-weekday">Qui</div><div class="cal-weekday">Sex</div>
+      <div class="cal-weekday">Sáb</div>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+  </div>
+
+  <!-- DAY EVENTS PREVIEW (shows when day selected) -->
+  <div class="day-events-preview" id="dayPreview" style="display:none;">
+    <div class="dep-title" id="depTitle"></div>
+    <div id="depList"></div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- TODO SECTION -->
+  <div class="todo-section">
+    <div class="todo-header-row">
+      <span class="todo-section-title" id="todoSectionTitle">Tarefas de Trabalho</span>
+    </div>
+    <div class="todo-search">
+      <span style="font-size:14px;color:var(--text3)">🔍</span>
+      <input type="text" id="searchInput" placeholder="Buscar evento...">
+    </div>
+    <div class="todo-filter-row" id="filterRow">
+      <button class="fchip active" data-f="all">Todas</button>
+      <button class="fchip" data-f="alta">Alta prior.</button>
+      <button class="fchip" data-f="media">Média prior.</button>
+      <button class="fchip" data-f="baixa">Baixa prior.</button>
+    </div>
+    <div id="todoList"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ ADD/EDIT EVENT MODAL ═══════════════ -->
+<div class="overlay" id="addOverlay">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-content">
+      <div class="sheet-title" id="addModalTitle">Novo Evento</div>
+      <input type="hidden" id="editId">
+
+      <div class="form-group">
+        <label class="form-label">Tipo</label>
+        <select class="form-select" id="fType">
+          <option value="trabalho">💼 Trabalho</option>
+          <option value="aniversario">🎂 Aniversário</option>
+          <option value="prova">📝 Prova</option>
+          <option value="outros">📌 Outros</option>
+        </select>
+      </div>
+
+      <div class="bday-note" id="bdayNote" style="display:none">
+        🎂 Aniversários repetem automaticamente todo ano. Informe apenas o dia e mês.
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Descrição</label>
+        <textarea class="form-textarea" id="fText" placeholder="Escreva exatamente o que será exibido..."></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group" id="fgDate">
+          <label class="form-label">Data</label>
+          <input type="date" class="form-input" id="fDate">
+        </div>
+        <div class="form-group" id="fgBday" style="display:none">
+          <label class="form-label">Dia / Mês</label>
+          <div style="display:flex;gap:5px;">
+            <select class="form-select" id="fBdDay" style="flex:1;"></select>
+            <select class="form-select" id="fBdMonth" style="flex:1.2;"></select>
+          </div>
+        </div>
+        <div class="form-group" id="fgPriority">
+          <label class="form-label">Prioridade</label>
+          <select class="form-select" id="fPriority">
+            <option value="">Nenhuma</option>
+            <option value="alta">Alta</option>
+            <option value="media">Média</option>
+            <option value="baixa">Baixa</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Aviso antecipado</label>
+          <select class="form-select" id="fAdvance">
+            <option value="0">No mesmo dia</option>
+            <option value="1">1 dia antes</option>
+            <option value="2">2 dias antes</option>
+            <option value="3">3 dias antes</option>
+            <option value="7">1 semana antes</option>
+            <option value="custom">Personalizado...</option>
+          </select>
+        </div>
+        <div class="form-group" id="fgRepeat">
+          <label class="form-label">Repetição</label>
+          <select class="form-select" id="fRepeat">
+            <option value="none">Não repetir</option>
+            <option value="monthly">Mensal</option>
+            <option value="yearly">Anual</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group" id="fgCustomAdv" style="display:none">
+        <label class="form-label">Quantos dias antes?</label>
+        <input type="number" class="form-input" id="fAdvCustom" min="1" max="365" placeholder="ex: 10" style="width:120px;">
+      </div>
+    </div>
+    <div class="sheet-actions">
+      <button class="btn-secondary" id="cancelAdd">Cancelar</button>
+      <button class="btn-primary" id="saveEvent">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ EVENT DETAIL MODAL ═══════════════ -->
+<div class="overlay" id="detailOverlay">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-content">
+      <div class="detail-type-bar">
+        <div class="detail-dot" id="dtDot"></div>
+        <span class="detail-type-label" id="dtType"></span>
+      </div>
+      <div class="detail-text" id="dtText"></div>
+      <div class="detail-meta" id="dtMeta"></div>
+    </div>
+    <div class="detail-actions">
+      <button class="btn-secondary" id="closeDetail">Fechar</button>
+      <button class="btn-secondary" id="editEventBtn">✏️ Editar</button>
+      <button class="btn-danger" id="deleteEventBtn">🗑 Deletar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ CONFIRM DIALOG ═══════════════ -->
+<div class="confirm-overlay" id="confirmOverlay"></div>
+<div class="confirm-box" id="confirmBox" style="display:none">
+  <div class="confirm-title" id="confirmTitle">Confirmar exclusão</div>
+  <div class="confirm-msg" id="confirmMsg">Tem certeza?</div>
+  <div class="confirm-actions">
+    <button class="btn-secondary" style="flex:1" id="confirmCancel">Cancelar</button>
+    <button class="btn-danger" style="flex:1" id="confirmOk">Deletar</button>
+  </div>
+</div>
+
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js';
+
+// ═══ FIREBASE CONFIG — substitua com suas credenciais ═══
+const firebaseConfig = {
+  apiKey: "SUA_API_KEY",
+  authDomain: "SEU_PROJETO.firebaseapp.com",
+  projectId: "SEU_PROJETO",
+  storageBucket: "SEU_PROJETO.appspot.com",
+  messagingSenderId: "SEU_SENDER_ID",
+  appId: "SEU_APP_ID"
+};
+const VAPID_KEY = "SUA_VAPID_KEY_AQUI";
+// ══════════════════════════════════════════════════════════
+
+let messaging = null;
+try {
+  const firebaseApp = initializeApp(firebaseConfig);
+  messaging = getMessaging(firebaseApp);
+
+  onMessage(messaging, (payload) => {
+    const { title, body } = payload.notification || {};
+    if (Notification.permission === 'granted') {
+      new Notification(title || 'Agenda Prática', { body, icon: 'icon-192.png' });
+    }
+  });
+
+  window._getFCMToken = async () => {
+    if (!messaging) return null;
+    try {
+      const reg = await navigator.serviceWorker.getRegistration('./sw.js');
+      const token = await getToken(messaging, { vapidKey: VAPID_KEY, serviceWorkerRegistration: reg });
+      return token;
+    } catch(e) { console.warn('FCM token error:', e); return null; }
+  };
+} catch(e) {
+  console.warn('Firebase not configured:', e.message);
+  window._getFCMToken = async () => null;
+}
+</script>
+
+<script>
+// ═══════════════════════════════════════
+//  DATA & CONSTANTS
+// ═══════════════════════════════════════
+const SK = 'agendaPratica_v3';
+const ML = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const MS = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+const TC = {
+  trabalho:    {dc:'d-work', color:'var(--info)',    bg:'var(--info-bg)',    lb:'Trabalho',    icon:'💼'},
+  aniversario: {dc:'d-bday', color:'var(--purple)',  bg:'var(--purple-bg)', lb:'Aniversário',  icon:'🎂'},
+  prova:       {dc:'d-exam', color:'var(--danger)',  bg:'var(--danger-bg)', lb:'Prova',        icon:'📝'},
+  outros:      {dc:'d-other',color:'var(--warning)', bg:'var(--warning-bg)',lb:'Outros',       icon:'📌'}
+};
+
+function loadDB(){try{return JSON.parse(localStorage.getItem(SK))||{events:[],fcmToken:null};}catch{return{events:[],fcmToken:null};}}
+function saveDB(){try{localStorage.setItem(SK,JSON.stringify(db));}catch{}}
+function genId(){return Date.now().toString(36)+Math.random().toString(36).slice(2);}
+function pad(n){return String(n).padStart(2,'0');}
+function today(){const d=new Date();d.setHours(0,0,0,0);return d;}
+function todayStr(){return today().toISOString().slice(0,10);}
+
+let db = loadDB();
+let curYear = new Date().getFullYear();
+let curMonth = new Date().getMonth();
+let selDate = null;
+let selEventId = null;
+let isDark = window.matchMedia('(prefers-color-scheme:dark)').matches;
+let activeFilter = 'all';
+let searchQ = '';
+let lastClickedDay = null;
+let clickTimer = null;
+
+// ═══════════════════════════════════════
+//  BIRTHDAY SELECTS
+// ═══════════════════════════════════════
+(()=>{
+  const dd=document.getElementById('fBdDay'), mm=document.getElementById('fBdMonth');
+  dd.innerHTML='<option value="">Dia</option>';
+  mm.innerHTML='<option value="">Mês</option>';
+  for(let i=1;i<=31;i++){const o=document.createElement('option');o.value=pad(i);o.textContent=i;dd.appendChild(o);}
+  MS.forEach((m,i)=>{const o=document.createElement('option');o.value=pad(i+1);o.textContent=m;mm.appendChild(o);});
+})();
+
+// ═══════════════════════════════════════
+//  THEME
+// ═══════════════════════════════════════
+function applyTheme(){
+  document.getElementById('app').classList.toggle('dark',isDark);
+  document.getElementById('themeBtn').textContent = isDark?'☽':'☀';
+}
+document.getElementById('themeBtn').addEventListener('click',()=>{isDark=!isDark;applyTheme();});
+
+// ═══════════════════════════════════════
+//  NOTIFICATIONS
+// ═══════════════════════════════════════
+function showNotifBanner(){
+  if(!('Notification' in window)) return;
+  if(Notification.permission==='granted') return;
+  document.getElementById('notifBanner').style.display='flex';
+}
+
+async function requestNotifPermission(){
+  if(!('Notification' in window)){alert('Notificações não suportadas neste navegador.');return;}
+  const perm = await Notification.requestPermission();
+  if(perm==='granted'){
+    document.getElementById('notifBanner').style.display='none';
+    if(window._getFCMToken){
+      const token = await window._getFCMToken();
+      if(token){db.fcmToken=token;saveDB();console.log('FCM Token:',token);}
+    }
+    scheduleLocalNotifications();
+  }
+}
+
+document.getElementById('enableNotifBtn').addEventListener('click', requestNotifPermission);
+document.getElementById('notifBtn').addEventListener('click', requestNotifPermission);
+
+// Local notification scheduling (fallback — works offline without server)
+function scheduleLocalNotifications(){
+  if(!('serviceWorker' in navigator)||Notification.permission!=='granted') return;
+  const now = new Date();
+  db.events.forEach(ev=>{
+    if(ev.done) return;
+    let eventDate;
+    if(ev.type==='aniversario'){
+      const[,mm,dd]=ev.birthdayKey.split('-');
+      eventDate=new Date(now.getFullYear(),parseInt(mm)-1,parseInt(dd));
+      if(eventDate<now) eventDate.setFullYear(now.getFullYear()+1);
+    } else {
+      eventDate=new Date(ev.date+'T09:00:00');
+    }
+    const notifDate=new Date(eventDate);
+    notifDate.setDate(notifDate.getDate()-parseInt(ev.advance||0));
+    notifDate.setHours(9,0,0,0);
+    const delay=notifDate.getTime()-now.getTime();
+    if(delay>0&&delay<7*24*60*60*1000){
+      setTimeout(()=>{
+        if(ev.done) return;
+        const tc=TC[ev.type]||TC.outros;
+        new Notification('Agenda Prática',{
+          body:`${tc.lb}: ${ev.text}`,
+          icon:'icon-192.png',
+          badge:'icon-192.png',
+          tag:ev.id
+        });
+      },delay);
+    }
+  });
+}
+
+// ═══════════════════════════════════════
+//  EVENTS ON DATE
+// ═══════════════════════════════════════
+function eventsOn(ds){
+  const[y,m,d]=ds.split('-').map(Number);
+  return db.events.filter(ev=>{
+    if(ev.type==='aniversario'){
+      const[,bm,bd]=ev.birthdayKey.split('-');
+      return parseInt(bm)===m && parseInt(bd)===d;
+    }
+    if(ev.repeat==='yearly'){const[,em,ed]=ev.date.split('-');return parseInt(em)===m&&parseInt(ed)===d;}
+    if(ev.repeat==='monthly'){return parseInt(ev.date.split('-')[2])===d;}
+    return ev.date===ds;
+  });
+}
+
+// ═══════════════════════════════════════
+//  CALENDAR
+// ═══════════════════════════════════════
+function renderCalendar(){
+  const grid=document.getElementById('calGrid');
+  document.getElementById('calTitle').textContent=`${ML[curMonth]} ${curYear}`;
+  grid.innerHTML='';
+  const t=today();
+  const firstDay=new Date(curYear,curMonth,1).getDay();
+  const daysInMonth=new Date(curYear,curMonth+1,0).getDate();
+  const daysInPrev=new Date(curYear,curMonth,0).getDate();
+  const cells=[];
+  for(let i=firstDay-1;i>=0;i--) cells.push({d:daysInPrev-i,m:curMonth-1,other:true});
+  for(let d=1;d<=daysInMonth;d++) cells.push({d,m:curMonth,other:false});
+  while(cells.length<42){cells.push({d:cells.length-firstDay-daysInMonth+1,m:curMonth+1,other:true});}
+
+  cells.forEach(c=>{
+    const m=((c.m%12)+12)%12, y=c.m<0?curYear-1:c.m>11?curYear+1:curYear;
+    const ds=`${y}-${pad(m+1)}-${pad(c.d)}`;
+    const cellDate=new Date(y,m,c.d);
+    const isToday=cellDate.getTime()===t.getTime(), isSel=ds===selDate;
+    const evs=c.other?[]:eventsOn(ds);
+    const el=document.createElement('div');
+    el.className='cal-day'+(c.other?' other-month':'')+(isToday?' today':'')+(isSel?' selected':'');
+    const num=document.createElement('div'); num.className='day-num'; num.textContent=c.d; el.appendChild(num);
+    if(evs.length){
+      const dots=document.createElement('div'); dots.className='day-dots';
+      const seen=new Set();
+      evs.forEach(ev=>{if(!seen.has(ev.type)){seen.add(ev.type);const dot=document.createElement('div');dot.className='dot '+(TC[ev.type]?.dc||'d-other');dots.appendChild(dot);}});
+      el.appendChild(dots);
+    }
+
+    // Single click → select / deselect; Double click → open add modal
+    el.addEventListener('click',()=>{
+      if(c.other) return;
+      if(clickTimer){
+        clearTimeout(clickTimer);
+        clickTimer=null;
+        // double click
+        openAddModal(ds);
+        return;
+      }
+      clickTimer=setTimeout(()=>{
+        clickTimer=null;
+        if(selDate===ds){
+          selDate=null;
+          lastClickedDay=null;
+          renderCalendar();
+          hideDayPreview();
+          renderTodo();
+        } else {
+          selDate=ds;
+          lastClickedDay=ds;
+          renderCalendar();
+          showDayPreview(ds);
+          renderTodo();
+        }
+      },250);
+    });
+
+    grid.appendChild(el);
+  });
+}
+
+function hideDayPreview(){
+  document.getElementById('dayPreview').style.display='none';
+  document.getElementById('todoSectionTitle').textContent='Tarefas de Trabalho';
+}
+
+function showDayPreview(ds){
+  const[y,m,d]=ds.split('-').map(Number);
+  const title=`${d} de ${ML[m-1]}`;
+  document.getElementById('depTitle').textContent=title;
+  document.getElementById('todoSectionTitle').textContent=`Trabalho — ${d}/${pad(m)}`;
+  const list=document.getElementById('depList');
+  list.innerHTML='';
+  const evs=eventsOn(ds);
+  if(!evs.length){list.innerHTML='<div style="font-size:13px;color:var(--text3);padding:4px 0 8px;">Nenhum evento neste dia · <span style="color:var(--accent);cursor:pointer" onclick="openAddModal(\''+ds+'\')">Adicionar</span></div>';
+  } else {
+    evs.forEach(ev=>{
+      const tc=TC[ev.type]||TC.outros;
+      const chip=document.createElement('div'); chip.className='dep-chip';
+      chip.innerHTML=`<div class="dep-dot" style="background:${tc.color}"></div><span class="dep-text">${ev.text}</span><span class="dep-arrow">›</span>`;
+      chip.addEventListener('click',()=>openDetail(ev.id));
+      list.appendChild(chip);
+    });
+  }
+  document.getElementById('dayPreview').style.display='block';
+}
+
+document.getElementById('prevMonth').addEventListener('click',()=>{curMonth--;if(curMonth<0){curMonth=11;curYear--;}selDate=null;hideDayPreview();renderCalendar();renderTodo();});
+document.getElementById('nextMonth').addEventListener('click',()=>{curMonth++;if(curMonth>11){curMonth=0;curYear++;}selDate=null;hideDayPreview();renderCalendar();renderTodo();});
+document.getElementById('todayBtn').addEventListener('click',()=>{const n=new Date();curYear=n.getFullYear();curMonth=n.getMonth();selDate=null;hideDayPreview();renderCalendar();renderTodo();});
+
+// ═══════════════════════════════════════
+//  TODO LIST
+// ═══════════════════════════════════════
+function shouldShow(ev){
+  const t=today();
+  let occ;
+  if(ev.type==='aniversario') return false; // birthdays don't go in todo
+  if(ev.repeat==='monthly'){const dd=parseInt(ev.date.split('-')[2]);occ=new Date(t.getFullYear(),t.getMonth(),dd);if(occ<t)occ=new Date(t.getFullYear(),t.getMonth()+1,dd);}
+  else if(ev.repeat==='yearly'){const[,mm,dd]=ev.date.split('-');occ=new Date(t.getFullYear(),parseInt(mm)-1,parseInt(dd));if(occ<t)occ=new Date(t.getFullYear()+1,parseInt(mm)-1,parseInt(dd));}
+  else occ=new Date(ev.date+'T00:00:00');
+  const cutoff=new Date(occ); cutoff.setDate(cutoff.getDate()+1);
+  return cutoff>=t;
+}
+
+function getFiltered(){
+  let events=db.events.filter(ev=>ev.type==='trabalho'&&shouldShow(ev));
+  if(selDate) events=events.filter(ev=>ev.date===selDate||(ev.repeat==='monthly'&&parseInt(ev.date.split('-')[2])===parseInt(selDate.split('-')[2]))||(ev.repeat==='yearly'&&ev.date.slice(5)===selDate.slice(5)));
+  if(activeFilter==='alta') events=events.filter(e=>e.priority==='alta');
+  else if(activeFilter==='media') events=events.filter(e=>e.priority==='media');
+  else if(activeFilter==='baixa') events=events.filter(e=>e.priority==='baixa');
+  if(searchQ) events=events.filter(e=>e.text.toLowerCase().includes(searchQ.toLowerCase()));
+  return events.sort((a,b)=>a.date.localeCompare(b.date));
+}
+
+function renderTodo(){
+  const list=document.getElementById('todoList'); list.innerHTML='';
+  const tasks=getFiltered();
+  if(!tasks.length){
+    list.innerHTML=`<div class="todo-empty">${selDate?'Nenhuma tarefa de trabalho neste dia':'Nenhuma tarefa de trabalho pendente'}<br><span style="font-size:12px">Use o botão + para adicionar</span></div>`;
+    return;
+  }
+  const ts=todayStr();
+  let lastGroup=null;
+  tasks.forEach(ev=>{
+    const g=ev.date<ts?'Atrasado':ev.date===ts?'Hoje':'Próximos';
+    if(g!==lastGroup){
+      const gl=document.createElement('div');
+      gl.className='group-label'+(g==='Atrasado'?' overdue':'');
+      gl.textContent=g; list.appendChild(gl); lastGroup=g;
+    }
+    const item=document.createElement('div');
+    item.className='todo-item'+(ev.done?' done':'');
+    const tc=TC[ev.type]||TC.outros;
+    const rIcon=ev.repeat==='monthly'?' ↻m':ev.repeat==='yearly'?' ↻a':'';
+    item.innerHTML=`
+      <div class="check-wrap"><div class="check-circle">${ev.done?'✓':''}</div></div>
+      <div class="todo-body">
+        <div class="todo-text">${ev.text}${rIcon}</div>
+        <div class="todo-meta">
+          <span class="tmeta-date">${ev.date.slice(5).replace('-','/')}</span>
+          ${ev.priority?`<span class="tbadge tbadge-${ev.priority}">${ev.priority}</span>`:''}
+        </div>
+      </div>`;
+    // Check toggle on check circle only
+    item.querySelector('.check-wrap').addEventListener('click',(e)=>{e.stopPropagation();ev.done=!ev.done;saveDB();renderTodo();if(selDate)showDayPreview(selDate);scheduleLocalNotifications();});
+    // Click body → detail
+    item.querySelector('.todo-body').addEventListener('click',()=>openDetail(ev.id));
+    list.appendChild(item);
+  });
+}
+
+document.getElementById('filterRow').addEventListener('click',e=>{
+  const chip=e.target.closest('.fchip');if(!chip)return;
+  document.querySelectorAll('.fchip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');activeFilter=chip.dataset.f;renderTodo();
+});
+document.getElementById('searchInput').addEventListener('input',e=>{searchQ=e.target.value;renderTodo();});
+
+// ═══════════════════════════════════════
+//  ADD / EDIT MODAL
+// ═══════════════════════════════════════
+function updateModalType(){
+  const type=document.getElementById('fType').value, isBd=type==='aniversario';
+  document.getElementById('bdayNote').style.display=isBd?'block':'none';
+  document.getElementById('fgDate').style.display=isBd?'none':'block';
+  document.getElementById('fgBday').style.display=isBd?'block':'none';
+  document.getElementById('fgRepeat').style.display=isBd?'none':'block';
+  document.getElementById('fgPriority').style.display=isBd?'none':'block';
+}
+document.getElementById('fType').addEventListener('change',updateModalType);
+document.getElementById('fAdvance').addEventListener('change',function(){
+  document.getElementById('fgCustomAdv').style.display=this.value==='custom'?'block':'none';
+});
+
+function openAddModal(dateStr, evToEdit){
+  document.getElementById('editId').value='';
+  document.getElementById('addModalTitle').textContent='Novo Evento';
+  document.getElementById('fType').value='trabalho';
+  document.getElementById('fText').value='';
+  document.getElementById('fPriority').value='';
+  document.getElementById('fAdvance').value='0';
+  document.getElementById('fRepeat').value='none';
+  document.getElementById('fDate').value=dateStr||todayStr();
+  document.getElementById('fBdDay').value='';
+  document.getElementById('fBdMonth').value='';
+  document.getElementById('fgCustomAdv').style.display='none';
+
+  if(evToEdit){
+    document.getElementById('editId').value=evToEdit.id;
+    document.getElementById('addModalTitle').textContent='Editar Evento';
+    document.getElementById('fType').value=evToEdit.type;
+    document.getElementById('fText').value=evToEdit.text;
+    document.getElementById('fPriority').value=evToEdit.priority||'';
+    document.getElementById('fRepeat').value=evToEdit.repeat||'none';
+    if(evToEdit.type==='aniversario'){
+      const[,mm,dd]=evToEdit.birthdayKey.split('-');
+      document.getElementById('fBdDay').value=dd;
+      document.getElementById('fBdMonth').value=mm;
+    } else {
+      document.getElementById('fDate').value=evToEdit.date;
+    }
+    const advStr=String(evToEdit.advance||0);
+    const knownOpts=['0','1','2','3','7'];
+    if(knownOpts.includes(advStr)){document.getElementById('fAdvance').value=advStr;}
+    else{document.getElementById('fAdvance').value='custom';document.getElementById('fAdvCustom').value=advStr;document.getElementById('fgCustomAdv').style.display='block';}
+  }
+
+  updateModalType();
+  document.getElementById('addOverlay').classList.add('open');
+}
+
+window.openAddModal=openAddModal;
+
+document.getElementById('openAddModal').addEventListener('click',()=>openAddModal(selDate||todayStr()));
+document.getElementById('cancelAdd').addEventListener('click',()=>document.getElementById('addOverlay').classList.remove('open'));
+document.getElementById('addOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('addOverlay'))document.getElementById('addOverlay').classList.remove('open');});
+
+document.getElementById('saveEvent').addEventListener('click',()=>{
+  const type=document.getElementById('fType').value;
+  const text=document.getElementById('fText').value.trim();
+  const priority=document.getElementById('fPriority').value;
+  const repeat=type==='aniversario'?'yearly':document.getElementById('fRepeat').value;
+  let adv=document.getElementById('fAdvance').value;
+  if(adv==='custom') adv=parseInt(document.getElementById('fAdvCustom').value)||0;
+  else adv=parseInt(adv)||0;
+
+  if(!text){alert('Escreva uma descrição.');return;}
+
+  const editId=document.getElementById('editId').value;
+  const existing=editId?db.events.find(e=>e.id===editId):null;
+
+  if(type==='aniversario'){
+    const dd=document.getElementById('fBdDay').value, mm=document.getElementById('fBdMonth').value;
+    if(!dd||!mm){alert('Selecione dia e mês do aniversário.');return;}
+    const bk=`--${mm}-${dd}`;
+    const ev={id:editId||genId(),type,text,birthdayKey:bk,date:`${curYear}-${mm}-${dd}`,priority:'',advance:adv,repeat:'yearly',done:existing?.done||false,createdAt:existing?.createdAt||Date.now()};
+    if(existing){const idx=db.events.indexOf(existing);db.events[idx]=ev;}else db.events.push(ev);
+  } else {
+    const date=document.getElementById('fDate').value;
+    if(!date){alert('Selecione uma data.');return;}
+    const ev={id:editId||genId(),type,text,date,priority,advance:adv,repeat,done:existing?.done||false,createdAt:existing?.createdAt||Date.now()};
+    if(existing){const idx=db.events.indexOf(existing);db.events[idx]=ev;}else db.events.push(ev);
+  }
+
+  saveDB();
+  document.getElementById('addOverlay').classList.remove('open');
+  renderCalendar();
+  if(selDate)showDayPreview(selDate);
+  renderTodo();
+  scheduleLocalNotifications();
+});
+
+// ═══════════════════════════════════════
+//  EVENT DETAIL
+// ═══════════════════════════════════════
+function openDetail(evId){
+  const ev=db.events.find(e=>e.id===evId); if(!ev) return;
+  selEventId=evId;
+  const tc=TC[ev.type]||TC.outros;
+  document.getElementById('dtDot').style.background=tc.color;
+  document.getElementById('dtType').textContent=`${tc.icon} ${tc.lb}`;
+  document.getElementById('dtText').textContent=ev.text;
+
+  const meta=document.getElementById('dtMeta'); meta.innerHTML='';
+  const addMeta=(icon,text)=>{const r=document.createElement('div');r.className='detail-meta-row';r.innerHTML=`<span class="detail-meta-icon">${icon}</span><span>${text}</span>`;meta.appendChild(r);};
+
+  if(ev.type==='aniversario'){
+    const[,mm,dd]=ev.birthdayKey.split('-');
+    addMeta('📅',`Todo ano em ${parseInt(dd)} de ${ML[parseInt(mm)-1]}`);
+  } else {
+    addMeta('📅',ev.date.split('-').reverse().join('/'));
+    if(ev.repeat!=='none') addMeta('🔁',ev.repeat==='monthly'?'Repete mensalmente':'Repete anualmente');
+    if(ev.priority) addMeta('⚡',`Prioridade ${ev.priority}`);
+    if(ev.advance>0) addMeta('⏰',`Aviso ${ev.advance} dia(s) antes`);
+  }
+  addMeta(ev.done?'✅':'⏳',ev.done?'Concluído':'Pendente');
+
+  document.getElementById('detailOverlay').classList.add('open');
+}
+
+document.getElementById('closeDetail').addEventListener('click',()=>document.getElementById('detailOverlay').classList.remove('open'));
+document.getElementById('detailOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('detailOverlay'))document.getElementById('detailOverlay').classList.remove('open');});
+
+document.getElementById('editEventBtn').addEventListener('click',()=>{
+  const ev=db.events.find(e=>e.id===selEventId); if(!ev) return;
+  document.getElementById('detailOverlay').classList.remove('open');
+  openAddModal(ev.date, ev);
+});
+
+document.getElementById('deleteEventBtn').addEventListener('click',()=>{
+  const ev=db.events.find(e=>e.id===selEventId); if(!ev) return;
+  const isRecurring=ev.repeat!=='none'||ev.type==='aniversario';
+  showConfirm(
+    'Deletar evento',
+    isRecurring?`"${ev.text}" é um evento recorrente. Isso removerá todas as ocorrências futuras.`:`Tem certeza que deseja deletar "${ev.text}"?`,
+    ()=>{
+      db.events=db.events.filter(e=>e.id!==selEventId);
+      saveDB();
+      document.getElementById('detailOverlay').classList.remove('open');
+      renderCalendar();
+      if(selDate)showDayPreview(selDate);
+      renderTodo();
+    }
+  );
+});
+
+// ═══════════════════════════════════════
+//  CONFIRM DIALOG
+// ═══════════════════════════════════════
+let confirmCallback=null;
+function showConfirm(title,msg,onOk){
+  confirmCallback=onOk;
+  document.getElementById('confirmTitle').textContent=title;
+  document.getElementById('confirmMsg').textContent=msg;
+  document.getElementById('confirmBox').style.display='block';
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+function hideConfirm(){
+  document.getElementById('confirmBox').style.display='none';
+  document.getElementById('confirmOverlay').classList.remove('open');
+  confirmCallback=null;
+}
+document.getElementById('confirmCancel').addEventListener('click',hideConfirm);
+document.getElementById('confirmOk').addEventListener('click',()=>{if(confirmCallback)confirmCallback();hideConfirm();});
+document.getElementById('confirmOverlay').addEventListener('click',hideConfirm);
+
+// ═══════════════════════════════════════
+//  SERVICE WORKER REGISTRATION
+// ═══════════════════════════════════════
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js').then(reg=>{
+    console.log('SW registered');
+  }).catch(e=>console.warn('SW error:',e));
+}
+
+// ═══════════════════════════════════════
+//  SEED DATA
+// ═══════════════════════════════════════
+if(!db.events.length){
+  const n=new Date(), ts=todayStr();
+  const tom=new Date(n);tom.setDate(tom.getDate()+1);const t2=tom.toISOString().slice(0,10);
+  const nxt=new Date(n);nxt.setDate(nxt.getDate()+4);const t3=nxt.toISOString().slice(0,10);
+  db.events=[
+    {id:genId(),type:'trabalho',text:'Reunião de planejamento sprint',date:ts,priority:'alta',advance:0,repeat:'none',done:false,createdAt:Date.now()},
+    {id:genId(),type:'aniversario',text:'Aniversário da Maria',birthdayKey:`--${pad(n.getMonth()+1)}-${pad(tom.getDate())}`,date:t2,priority:'',advance:1,repeat:'yearly',done:false,createdAt:Date.now()},
+    {id:genId(),type:'prova',text:'Prova de Cálculo 2 — sala B3',date:t3,priority:'alta',advance:2,repeat:'none',done:false,createdAt:Date.now()},
+    {id:genId(),type:'trabalho',text:'Relatório mensal de vendas',date:t3,priority:'media',advance:0,repeat:'monthly',done:false,createdAt:Date.now()}
+  ];
+  saveDB();
+}
+
+// ═══════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════
+applyTheme();
+renderCalendar();
+renderTodo();
+showNotifBanner();
+scheduleLocalNotifications();
+</script>
+</body>
+</html>
