@@ -1,8 +1,8 @@
 {
-  "name": "Agenda Prática",
+  "name": "Agenda Pr\u00c3\u00a1tica",
   "short_name": "Agenda",
-  "description": "Sua agenda pessoal com to-do list e notificações",
-  "start_url": "./index.html",
+  "description": "Sua agenda pessoal com to-do list e notifica\u00c3\u00a7\u00c3\u00b5es",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#FFFFFF",
   "theme_color": "#1D9E75",
@@ -22,14 +22,23 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["productivity", "utilities"],
+  "categories": [
+    "productivity",
+    "utilities"
+  ],
   "shortcuts": [
     {
       "name": "Novo Evento",
       "short_name": "Novo",
       "description": "Adicionar um novo evento",
       "url": "./index.html",
-      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
-  ]
+  ],
+  "scope": "/"
 }
