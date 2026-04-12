@@ -1,0 +1,16 @@
+{
+  "name": "agenda-pratica-vercel",
+  "version": "1.0.0",
+  "description": "Serverless notification system para Agenda Prática",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.0.0"
+  },
+  "engines": {
+    "node": "18.x"
+  }
+}

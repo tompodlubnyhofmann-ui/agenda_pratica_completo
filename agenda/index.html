@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#1D9E75">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -35,10 +35,10 @@
   --purple:#A78BFA;--purple-bg:#1E1547;
 }
 html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--text);-webkit-tap-highlight-color:transparent;}
-.app{display:flex;flex-direction:column;min-height:100vh;max-width:540px;margin:0 auto;background:var(--bg);}
+.app{display:flex;flex-direction:column;min-height:100vh;max-width:540px;margin:0 auto;background:var(--bg);padding-left:max(0,env(safe-area-inset-left));padding-right:max(0,env(safe-area-inset-right));}
 
 /* TOPBAR */
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;background:var(--bg);position:sticky;top:0;z-index:10;border-bottom:0.5px solid var(--border);}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:max(14px,env(safe-area-inset-top)) 16px 10px;background:var(--bg);position:sticky;top:0;z-index:10;border-bottom:0.5px solid var(--border);}
 .app-logo{display:flex;align-items:center;gap:8px;}
 .app-logo-icon{width:30px;height:30px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
 .app-title{font-size:16px;font-weight:600;letter-spacing:-0.3px;color:var(--text);}
@@ -360,17 +360,17 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--t
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js';
 
-// ═══ FIREBASE CONFIG — substitua com suas credenciais ═══
+// ═══ FIREBASE CONFIG ═══
 const firebaseConfig = {
-  apiKey: "SUA_API_KEY",
-  authDomain: "SEU_PROJETO.firebaseapp.com",
-  projectId: "SEU_PROJETO",
-  storageBucket: "SEU_PROJETO.appspot.com",
-  messagingSenderId: "SEU_SENDER_ID",
-  appId: "SEU_APP_ID"
+  apiKey: "AIzaSyCmeHx8_1fSdkfiyn8FebxxjcT63TMp4uc",
+  authDomain: "agenda-pratica2.firebaseapp.com",
+  projectId: "agenda-pratica2",
+  storageBucket: "agenda-pratica2.firebasestorage.app",
+  messagingSenderId: "140656716379",
+  appId: "1:140656716379:web:e50d01bc5c4a1395e62d7e"
 };
-const VAPID_KEY = "SUA_VAPID_KEY_AQUI";
-// ══════════════════════════════════════════════════════════
+const VAPID_KEY = "BCq8TfHdKJsFNW7uUGGifUhfvRHC0dQGf_SyP6MPuaRgcDvmaFsVg-ZfVUBT670kDsCzEhB9mQRxYAYfI3ciCxE";
+// ═══════════════════════════════════════════════════════════
 
 let messaging = null;
 try {
@@ -412,14 +412,28 @@ const TC = {
   outros:      {dc:'d-other',color:'var(--warning)', bg:'var(--warning-bg)',lb:'Outros',       icon:'📌'}
 };
 
-function loadDB(){try{return JSON.parse(localStorage.getItem(SK))||{events:[],fcmToken:null};}catch{return{events:[],fcmToken:null};}}
+function loadDB(){try{return JSON.parse(localStorage.getItem(SK))||{userId:null,events:[],fcmToken:null};}catch{return{userId:null,events:[],fcmToken:null};}}
 function saveDB(){try{localStorage.setItem(SK,JSON.stringify(db));}catch{}}
 function genId(){return Date.now().toString(36)+Math.random().toString(36).slice(2);}
 function pad(n){return String(n).padStart(2,'0');}
 function today(){const d=new Date();d.setHours(0,0,0,0);return d;}
 function todayStr(){return today().toISOString().slice(0,10);}
 
+// ═══════════════════════════════════════
+//  CONFIG BACKEND - VERCEL CRON
+// ═══════════════════════════════════════
+// Substitua 'seu-projeto' pela sua URL real do Vercel
+// Exemplo: https://agenda-pratica.vercel.app
+const BACKEND_URL = 'https://seu-projeto.vercel.app';
+
 let db = loadDB();
+
+// Gerar ID de usuário único se não tiver
+if(!db.userId){
+  db.userId = 'user_' + genId();
+  saveDB();
+  console.log('✅ Usuário ID gerado:', db.userId);
+}
 let curYear = new Date().getFullYear();
 let curMonth = new Date().getMonth();
 let selDate = null;
@@ -429,6 +443,23 @@ let activeFilter = 'all';
 let searchQ = '';
 let lastClickedDay = null;
 let clickTimer = null;
+
+// ═══════════════════════════════════════
+//  PREVENT DOUBLE TAP ZOOM (balanced approach)
+// ═══════════════════════════════════════
+let lastTouchEnd = 0;
+document.addEventListener('touchend', function(event) {
+  const now = (new Date()).getTime();
+  if (now - lastTouchEnd <= 300) {
+    event.preventDefault();
+  }
+  lastTouchEnd = now;
+}, false);
+
+// Prevent pinch zoom
+document.addEventListener('gesturestart', function(e) {
+  e.preventDefault();
+});
 
 // ═══════════════════════════════════════
 //  BIRTHDAY SELECTS
@@ -466,9 +497,39 @@ async function requestNotifPermission(){
     document.getElementById('notifBanner').style.display='none';
     if(window._getFCMToken){
       const token = await window._getFCMToken();
-      if(token){db.fcmToken=token;saveDB();console.log('FCM Token:',token);}
+      if(token){
+        db.fcmToken=token;
+        saveDB();
+        console.log('✅ FCM Token obtido:', token);
+        
+        // Registrar token no backend
+        registrarTokenNoBackend(token);
+      }
     }
     scheduleLocalNotifications();
+  }
+}
+
+// Registrar token no backend
+async function registrarTokenNoBackend(token){
+  try {
+    const response = await fetch(`${BACKEND_URL}/api/register-token`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userId: db.userId,
+        token: token
+      })
+    });
+    
+    if(response.ok){
+      const data = await response.json();
+      console.log('✅ Token registrado no backend:', data.message);
+    } else {
+      console.warn('⚠️  Erro ao registrar token:', response.status);
+    }
+  } catch(error){
+    console.warn('⚠️  Não conseguiu registrar token no backend (pode estar offline):', error.message);
   }
 }
 

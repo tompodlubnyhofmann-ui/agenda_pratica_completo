@@ -1,0 +1,21 @@
+{
+  "buildCommand": "npm install",
+  "installCommand": "npm install",
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "env": [
+    "FIREBASE_PROJECT_ID",
+    "FIREBASE_CLIENT_EMAIL",
+    "FIREBASE_PRIVATE_KEY",
+    "VAPID_KEY"
+  ],
+  "crons": [
+    {
+      "path": "/api/cron",
+      "schedule": "0 8,12,17,20 * * *"
+    }
+  ]
+}
