@@ -35,9 +35,7 @@
   --purple:#A78BFA;--purple-bg:#1E1547;
 }
 html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--text);-webkit-tap-highlight-color:transparent;}
-.app{display:flex;flex-direction:column;min-height:100vh;max-width:540px;margin:0 auto;background:var(--bg);padding-left:max(0,env(safe-area-inset-left));padding-right:max(0,env(safe-area-inset-right));}
-
-/* TOPBAR */
+.app{display:flex;flex-direction:column;min-height:100vh;max-width:540px;margin:0 auto;background:var(--bg);padding-left:max(0px,env(safe-area-inset-left));padding-right:max(0px,env(safe-area-inset-right));}
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:max(14px,env(safe-area-inset-top)) 16px 10px;background:var(--bg);position:sticky;top:0;z-index:10;border-bottom:0.5px solid var(--border);}
 .app-logo{display:flex;align-items:center;gap:8px;}
 .app-logo-icon{width:30px;height:30px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
@@ -45,13 +43,9 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--t
 .topbar-right{display:flex;gap:6px;}
 .icon-btn{width:34px;height:34px;border-radius:8px;border:0.5px solid var(--border2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--text2);}
 .icon-btn:active{background:var(--surface);}
-
-/* ADD BUTTON */
 .add-event-bar{padding:10px 16px 0;}
 .add-event-btn{width:100%;padding:11px;border-radius:10px;background:var(--accent);border:none;color:#fff;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;}
 .add-event-btn:active{opacity:0.85;}
-
-/* CALENDAR */
 .cal-section{padding:12px 16px 0;}
 .cal-nav-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
 .cal-month-title{font-size:15px;font-weight:600;color:var(--text);}
@@ -75,11 +69,7 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--t
 .d-bday{background:var(--purple);}
 .d-exam{background:var(--danger);}
 .d-other{background:var(--warning);}
-
-/* DIVIDER */
 .section-divider{height:0.5px;background:var(--border);margin:14px 0 0;}
-
-/* TODO SECTION */
 .todo-section{padding:12px 16px;flex:1;}
 .todo-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
 .todo-section-title{font-size:13px;font-weight:600;color:var(--text);}
@@ -108,9 +98,7 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--t
 .tbadge-alta{background:var(--danger-bg);color:var(--danger);}
 .tbadge-media{background:var(--warning-bg);color:var(--warning);}
 .tbadge-baixa{background:var(--accent-bg);color:var(--accent-dark);}
-.tbadge-repeat{background:var(--surface2);color:var(--text3);}
-
-/* MODALS */
+.tbadge-bday{background:var(--purple-bg);color:var(--purple);}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;display:none;align-items:flex-end;justify-content:center;}
 .overlay.open{display:flex;}
 .sheet{background:var(--bg);border-radius:20px 20px 0 0;padding:0 0 max(env(safe-area-inset-bottom),20px);width:100%;max-width:540px;max-height:92vh;overflow-y:auto;}
@@ -119,20 +107,18 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--t
 .sheet-title{font-size:16px;font-weight:600;color:var(--text);margin-bottom:16px;}
 .form-group{margin-bottom:14px;}
 .form-label{font-size:12px;font-weight:500;color:var(--text2);margin-bottom:6px;display:block;}
-.form-input,.form-select,.form-textarea{width:100%;padding:10px 12px;border-radius:9px;border:0.5px solid var(--border2);background:var(--surface);font-family:var(--font);font-size:14px;color:var(--text);outline:none;-webkit-appearance:none;appearance:none;}
+.form-input,.form-select,.form-textarea{width:100%;padding:10px 12px;border-radius:9px;border:0.5px solid var(--border2);background:var(--surface);font-family:var(--font);font-size:16px;color:var(--text);outline:none;-webkit-appearance:none;appearance:none;}
 .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--accent);}
-.form-textarea{resize:vertical;min-height:80px;line-height:1.5;}
+.form-textarea{resize:vertical;min-height:80px;line-height:1.5;font-size:16px;}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
 .sheet-actions{display:flex;gap:8px;padding:12px 20px 0;}
 .btn-primary{flex:1;padding:12px;border-radius:10px;background:var(--accent);border:none;color:#fff;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;}
 .btn-secondary{padding:12px 16px;border-radius:10px;border:0.5px solid var(--border2);background:transparent;color:var(--text2);font-family:var(--font);font-size:14px;cursor:pointer;}
 .btn-danger{padding:12px 16px;border-radius:10px;border:none;background:var(--danger-bg);color:var(--danger);font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;}
-
-/* BIRTHDAY NOTE */
 .bday-note{background:var(--purple-bg);color:var(--purple);border-radius:9px;padding:9px 12px;font-size:12px;line-height:1.5;margin-bottom:14px;}
-
-/* EVENT DETAIL SHEET */
+.bday-inputs{display:flex;gap:8px;}
+.bday-inputs input{flex:1;padding:10px 12px;border-radius:9px;border:0.5px solid var(--border2);background:var(--surface);font-family:var(--font);font-size:16px;color:var(--text);outline:none;text-align:center;}
+.bday-inputs input:focus{border-color:var(--accent);}
 .detail-type-bar{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
 .detail-dot{width:10px;height:10px;border-radius:50%;}
 .detail-type-label{font-size:12px;font-weight:600;color:var(--text2);}
@@ -141,21 +127,15 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--t
 .detail-meta-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);}
 .detail-meta-icon{font-size:14px;}
 .detail-actions{display:flex;gap:8px;padding:0 20px 8px;}
-
-/* CONFIRM DIALOG */
 .confirm-box{background:var(--bg);border-radius:16px;padding:20px;width:85%;max-width:320px;margin:auto;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:200;border:0.5px solid var(--border2);}
 .confirm-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px;}
 .confirm-msg{font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:18px;}
 .confirm-actions{display:flex;gap:8px;}
 .confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:199;display:none;}
 .confirm-overlay.open{display:block;}
-
-/* NOTIF BANNER */
 .notif-banner{background:var(--surface);border:0.5px solid var(--border2);border-radius:10px;padding:12px 14px;margin:0 16px 12px;display:flex;align-items:center;gap:10px;}
 .notif-banner-text{flex:1;font-size:12px;color:var(--text2);line-height:1.4;}
 .notif-banner-btn{padding:6px 12px;border-radius:7px;background:var(--accent);border:none;color:#fff;font-family:var(--font);font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;}
-
-/* DAY EVENTS PREVIEW */
 .day-events-preview{background:var(--surface);border-top:0.5px solid var(--border);padding:10px 16px;}
 .dep-title{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:6px;}
 .dep-chip{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;background:var(--bg);border:0.5px solid var(--border);margin-bottom:5px;cursor:pointer;}
@@ -167,8 +147,6 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--t
 </head>
 <body>
 <div class="app" id="app">
-
-  <!-- TOPBAR -->
   <div class="topbar">
     <div class="app-logo">
       <div class="app-logo-icon">📅</div>
@@ -180,21 +158,18 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--t
     </div>
   </div>
 
-  <!-- NOTIFICATION BANNER (shown if permission not granted) -->
   <div class="notif-banner" id="notifBanner" style="display:none;margin-top:10px;">
     <span style="font-size:20px">🔔</span>
     <span class="notif-banner-text">Ative as notificações para receber lembretes dos seus eventos</span>
     <button class="notif-banner-btn" id="enableNotifBtn">Ativar</button>
   </div>
 
-  <!-- ADD BUTTON -->
   <div class="add-event-bar">
     <button class="add-event-btn" id="openAddModal">
       <span style="font-size:18px;line-height:1">+</span> Adicionar evento
     </button>
   </div>
 
-  <!-- CALENDAR -->
   <div class="cal-section">
     <div class="cal-nav-row">
       <span class="cal-month-title" id="calTitle"></span>
@@ -213,7 +188,6 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--t
     <div class="cal-grid" id="calGrid"></div>
   </div>
 
-  <!-- DAY EVENTS PREVIEW (shows when day selected) -->
   <div class="day-events-preview" id="dayPreview" style="display:none;">
     <div class="dep-title" id="depTitle"></div>
     <div id="depList"></div>
@@ -221,26 +195,26 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--t
 
   <div class="section-divider"></div>
 
-  <!-- TODO SECTION -->
   <div class="todo-section">
     <div class="todo-header-row">
-      <span class="todo-section-title" id="todoSectionTitle">Tarefas de Trabalho</span>
+      <span class="todo-section-title" id="todoSectionTitle">Todos os Eventos</span>
     </div>
     <div class="todo-search">
       <span style="font-size:14px;color:var(--text3)">🔍</span>
       <input type="text" id="searchInput" placeholder="Buscar evento...">
     </div>
     <div class="todo-filter-row" id="filterRow">
-      <button class="fchip active" data-f="all">Todas</button>
-      <button class="fchip" data-f="alta">Alta prior.</button>
-      <button class="fchip" data-f="media">Média prior.</button>
-      <button class="fchip" data-f="baixa">Baixa prior.</button>
+      <button class="fchip active" data-f="all">Todos</button>
+      <button class="fchip" data-f="trabalho">Trabalho</button>
+      <button class="fchip" data-f="aniversario">Aniversários</button>
+      <button class="fchip" data-f="prova">Provas</button>
+      <button class="fchip" data-f="outros">Outros</button>
     </div>
     <div id="todoList"></div>
   </div>
 </div>
 
-<!-- ═══════════════ ADD/EDIT EVENT MODAL ═══════════════ -->
+<!-- ADD/EDIT EVENT MODAL -->
 <div class="overlay" id="addOverlay">
   <div class="sheet">
     <div class="sheet-handle"></div>
@@ -264,25 +238,25 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--t
 
       <div class="form-group">
         <label class="form-label">Descrição</label>
-        <textarea class="form-textarea" id="fText" placeholder="Escreva exatamente o que será exibido..."></textarea>
+        <textarea class="form-textarea" id="fText" placeholder="Escreva o que será exibido..."></textarea>
+      </div>
+
+      <!-- Data normal -->
+      <div class="form-group" id="fgDate">
+        <label class="form-label">Data</label>
+        <input type="date" class="form-input" id="fDate">
+      </div>
+
+      <!-- Aniversário: dia e mês separados com input number -->
+      <div class="form-group" id="fgBday" style="display:none">
+        <label class="form-label">Dia / Mês</label>
+        <div class="bday-inputs">
+          <input type="number" id="fBdDay" placeholder="Dia" min="1" max="31">
+          <input type="number" id="fBdMonth" placeholder="Mês (1-12)" min="1" max="12">
+        </div>
       </div>
 
       <div class="form-row">
-        <div class="form-group" id="fgDate">
-          <label class="form-label">Data</label>
-          <input type="date" class="form-input" id="fDate">
-        </div>
-        <div class="form-group" id="fgBday" style="display:none">
-          <label class="form-label">Dia / Mês</label>
-          <div style="display:flex;gap:5px;">
-            <select class="form-select" id="fBdDay" style="flex:1;font-size:16px;">
-              <option value="">Dia</option>
-            </select>
-            <select class="form-select" id="fBdMonth" style="flex:1.2;font-size:16px;">
-              <option value="">Mês</option>
-            </select>
-          </div>
-        </div>
         <div class="form-group" id="fgPriority">
           <label class="form-label">Prioridade</label>
           <select class="form-select" id="fPriority">
@@ -292,9 +266,6 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--t
             <option value="baixa">Baixa</option>
           </select>
         </div>
-      </div>
-
-      <div class="form-row">
         <div class="form-group">
           <label class="form-label">Aviso antecipado</label>
           <select class="form-select" id="fAdvance">
@@ -306,19 +277,20 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--t
             <option value="custom">Personalizado...</option>
           </select>
         </div>
-        <div class="form-group" id="fgRepeat">
-          <label class="form-label">Repetição</label>
-          <select class="form-select" id="fRepeat">
-            <option value="none">Não repetir</option>
-            <option value="monthly">Mensal</option>
-            <option value="yearly">Anual</option>
-          </select>
-        </div>
+      </div>
+
+      <div class="form-group" id="fgRepeat">
+        <label class="form-label">Repetição</label>
+        <select class="form-select" id="fRepeat">
+          <option value="none">Não repetir</option>
+          <option value="monthly">Mensal</option>
+          <option value="yearly">Anual</option>
+        </select>
       </div>
 
       <div class="form-group" id="fgCustomAdv" style="display:none">
         <label class="form-label">Quantos dias antes?</label>
-        <input type="number" class="form-input" id="fAdvCustom" min="1" max="365" placeholder="ex: 10" style="width:120px;">
+        <input type="number" class="form-input" id="fAdvCustom" min="1" max="365" placeholder="ex: 10">
       </div>
     </div>
     <div class="sheet-actions">
@@ -328,7 +300,7 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--t
   </div>
 </div>
 
-<!-- ═══════════════ EVENT DETAIL MODAL ═══════════════ -->
+<!-- EVENT DETAIL MODAL -->
 <div class="overlay" id="detailOverlay">
   <div class="sheet">
     <div class="sheet-handle"></div>
@@ -348,7 +320,7 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--t
   </div>
 </div>
 
-<!-- ═══════════════ CONFIRM DIALOG ═══════════════ -->
+<!-- CONFIRM DIALOG -->
 <div class="confirm-overlay" id="confirmOverlay"></div>
 <div class="confirm-box" id="confirmBox" style="display:none">
   <div class="confirm-title" id="confirmTitle">Confirmar exclusão</div>
@@ -364,7 +336,6 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--t
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js';
 
-// ═══ FIREBASE CONFIG ═══
 const firebaseConfig = {
   apiKey: "AIzaSyCmeHx8_1fSdkfiyn8FebxxjcT63TMp4uc",
   authDomain: "agenda-pratica2.firebaseapp.com",
@@ -374,20 +345,17 @@ const firebaseConfig = {
   appId: "1:140656716379:web:e50d01bc5c4a1395e62d7e"
 };
 const VAPID_KEY = "BCq8TfHdKJsFNW7uUGGifUhfvRHC0dQGf_SyP6MPuaRgcDvmaFsVg-ZfVUBT670kDsCzEhB9mQRxYAYfI3ciCxE";
-// ═══════════════════════════════════════════════════════════
 
 let messaging = null;
 try {
   const firebaseApp = initializeApp(firebaseConfig);
   messaging = getMessaging(firebaseApp);
-
   onMessage(messaging, (payload) => {
     const { title, body } = payload.notification || {};
     if (Notification.permission === 'granted') {
       new Notification(title || 'Agenda Prática', { body, icon: 'icon-192.png' });
     }
   });
-
   window._getFCMToken = async () => {
     if (!messaging) return null;
     try {
@@ -403,18 +371,16 @@ try {
 </script>
 
 <script>
-// ═══════════════════════════════════════
-//  DATA & CONSTANTS
-// ═══════════════════════════════════════
 const SK = 'agendaPratica_v3';
 const ML = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-const MS = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 const TC = {
   trabalho:    {dc:'d-work', color:'var(--info)',    bg:'var(--info-bg)',    lb:'Trabalho',    icon:'💼'},
   aniversario: {dc:'d-bday', color:'var(--purple)',  bg:'var(--purple-bg)', lb:'Aniversário',  icon:'🎂'},
   prova:       {dc:'d-exam', color:'var(--danger)',  bg:'var(--danger-bg)', lb:'Prova',        icon:'📝'},
   outros:      {dc:'d-other',color:'var(--warning)', bg:'var(--warning-bg)',lb:'Outros',       icon:'📌'}
 };
+
+const BACKEND_URL = 'https://agenda-pratica-completo-51k5.vercel.app';
 
 function loadDB(){try{return JSON.parse(localStorage.getItem(SK))||{userId:null,events:[],fcmToken:null};}catch{return{userId:null,events:[],fcmToken:null};}}
 function saveDB(){try{localStorage.setItem(SK,JSON.stringify(db));}catch{}}
@@ -423,21 +389,9 @@ function pad(n){return String(n).padStart(2,'0');}
 function today(){const d=new Date();d.setHours(0,0,0,0);return d;}
 function todayStr(){return today().toISOString().slice(0,10);}
 
-// ═══════════════════════════════════════
-//  CONFIG BACKEND - VERCEL CRON
-// ═══════════════════════════════════════
-// Substitua 'seu-projeto' pela sua URL real do Vercel
-// Exemplo: https://agenda-pratica.vercel.app
-const BACKEND_URL = 'https://agenda-pratica-completo-51k5.vercel.app';
-
 let db = loadDB();
+if(!db.userId){db.userId='user_'+genId();saveDB();}
 
-// Gerar ID de usuário único se não tiver
-if(!db.userId){
-  db.userId = 'user_' + genId();
-  saveDB();
-  console.log('✅ Usuário ID gerado:', db.userId);
-}
 let curYear = new Date().getFullYear();
 let curMonth = new Date().getMonth();
 let selDate = null;
@@ -445,68 +399,40 @@ let selEventId = null;
 let isDark = window.matchMedia('(prefers-color-scheme:dark)').matches;
 let activeFilter = 'all';
 let searchQ = '';
-let lastClickedDay = null;
-let clickTimer = null;
 
-// ═══════════════════════════════════════
-//  PREVENT DOUBLE TAP ZOOM (balanced approach)
-// ═══════════════════════════════════════
+// Prevent double tap zoom
 let lastTouchEnd = 0;
-document.addEventListener('touchend', function(event) {
-  const now = (new Date()).getTime();
-  if (now - lastTouchEnd <= 300) {
-    event.preventDefault();
-  }
+document.addEventListener('touchend', function(e) {
+  const now = Date.now();
+  if (now - lastTouchEnd <= 300) e.preventDefault();
   lastTouchEnd = now;
 }, false);
+document.addEventListener('gesturestart', e => e.preventDefault());
 
-// Prevent pinch zoom
-document.addEventListener('gesturestart', function(e) {
-  e.preventDefault();
-});
-
-// ═══════════════════════════════════════
-//  BIRTHDAY SELECTS
-// ═══════════════════════════════════════
-(()=>{
-  const dd=document.getElementById('fBdDay'), mm=document.getElementById('fBdMonth');
-  dd.innerHTML='<option value="">Dia</option>';
-  mm.innerHTML='<option value="">Mês</option>';
-  for(let i=1;i<=31;i++){const o=document.createElement('option');o.value=pad(i);o.textContent=i;dd.appendChild(o);}
-  MS.forEach((m,i)=>{const o=document.createElement('option');o.value=pad(i+1);o.textContent=m;mm.appendChild(o);});
-})();
-
-// ═══════════════════════════════════════
-//  THEME
-// ═══════════════════════════════════════
+// THEME
 function applyTheme(){
-  document.getElementById('app').classList.toggle('dark',isDark);
-  document.getElementById('themeBtn').textContent = isDark?'☽':'☀';
+  document.getElementById('app').classList.toggle('dark', isDark);
+  document.getElementById('themeBtn').textContent = isDark ? '☽' : '☀';
 }
-document.getElementById('themeBtn').addEventListener('click',()=>{isDark=!isDark;applyTheme();});
+document.getElementById('themeBtn').addEventListener('click', () => { isDark = !isDark; applyTheme(); });
 
-// ═══════════════════════════════════════
-//  NOTIFICATIONS
-// ═══════════════════════════════════════
+// NOTIFICATIONS
 function showNotifBanner(){
   if(!('Notification' in window)) return;
-  if(Notification.permission==='granted') return;
-  document.getElementById('notifBanner').style.display='flex';
+  if(Notification.permission === 'granted') return;
+  document.getElementById('notifBanner').style.display = 'flex';
 }
 
 async function requestNotifPermission(){
   if(!('Notification' in window)){alert('Notificações não suportadas neste navegador.');return;}
   const perm = await Notification.requestPermission();
-  if(perm==='granted'){
-    document.getElementById('notifBanner').style.display='none';
+  if(perm === 'granted'){
+    document.getElementById('notifBanner').style.display = 'none';
     if(window._getFCMToken){
       const token = await window._getFCMToken();
       if(token){
-        db.fcmToken=token;
+        db.fcmToken = token;
         saveDB();
-        console.log('✅ FCM Token obtido:', token);
-        
-        // Registrar token no backend
         registrarTokenNoBackend(token);
       }
     }
@@ -514,122 +440,96 @@ async function requestNotifPermission(){
   }
 }
 
-// Registrar token no backend
 async function registrarTokenNoBackend(token){
   try {
-    const response = await fetch(`${BACKEND_URL}/api/register-token`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        userId: db.userId,
-        token: token
-      })
+    const r = await fetch(`${BACKEND_URL}/api/register-token`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({userId: db.userId, token})
     });
-    
-    if(response.ok){
-      const data = await response.json();
-      console.log('✅ Token registrado no backend:', data.message);
-    } else {
-      console.warn('⚠️  Erro ao registrar token:', response.status);
-    }
-  } catch(error){
-    console.warn('⚠️  Não conseguiu registrar token no backend (pode estar offline):', error.message);
-  }
+    if(r.ok) console.log('✅ Token registrado');
+    else console.warn('⚠️ Erro token:', r.status);
+  } catch(e){ console.warn('⚠️ Token offline:', e.message); }
 }
+
 async function salvarEventoNoFirestore(evento){
   try {
     await fetch(`${BACKEND_URL}/api/save-event`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: db.userId, event: evento })
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({userId: db.userId, event: evento})
     });
     console.log('✅ Evento salvo no Firestore:', evento.id);
-  } catch(e) {
-    console.warn('⚠️ Erro ao salvar evento:', e.message);
-  }
+  } catch(e){ console.warn('⚠️ Erro salvar evento:', e.message); }
 }
 
 async function deletarEventoDoFirestore(eventId){
   try {
     await fetch(`${BACKEND_URL}/api/save-event`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: db.userId, eventId: eventId, action: 'delete' })
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({userId: db.userId, eventId, action:'delete'})
     });
-    console.log('✅ Evento deletado do Firestore:', eventId);
-  } catch(e) {
-    console.warn('⚠️ Erro ao deletar evento:', e.message);
-  }
+    console.log('✅ Evento deletado:', eventId);
+  } catch(e){ console.warn('⚠️ Erro deletar evento:', e.message); }
 }
+
 document.getElementById('enableNotifBtn').addEventListener('click', requestNotifPermission);
 document.getElementById('notifBtn').addEventListener('click', requestNotifPermission);
 
-// Local notification scheduling (fallback — works offline without server)
 function scheduleLocalNotifications(){
-  if(!('serviceWorker' in navigator)||Notification.permission!=='granted') return;
+  if(!('serviceWorker' in navigator) || Notification.permission !== 'granted') return;
   const now = new Date();
-  db.events.forEach(ev=>{
+  db.events.forEach(ev => {
     if(ev.done) return;
     let eventDate;
-    if(ev.type==='aniversario'){
-      const[,mm,dd]=ev.birthdayKey.split('-');
-      eventDate=new Date(now.getFullYear(),parseInt(mm)-1,parseInt(dd));
-      if(eventDate<now) eventDate.setFullYear(now.getFullYear()+1);
+    if(ev.type === 'aniversario'){
+      const [,mm,dd] = ev.birthdayKey.split('-');
+      eventDate = new Date(now.getFullYear(), parseInt(mm)-1, parseInt(dd));
+      if(eventDate < now) eventDate.setFullYear(now.getFullYear()+1);
     } else {
-      eventDate=new Date(ev.date+'T09:00:00');
+      eventDate = new Date(ev.date+'T09:00:00');
     }
-    const notifDate=new Date(eventDate);
-    notifDate.setDate(notifDate.getDate()-parseInt(ev.advance||0));
+    const notifDate = new Date(eventDate);
+    notifDate.setDate(notifDate.getDate() - parseInt(ev.advance||0));
     notifDate.setHours(9,0,0,0);
-    const delay=notifDate.getTime()-now.getTime();
-    if(delay>0&&delay<7*24*60*60*1000){
-      setTimeout(()=>{
+    const delay = notifDate.getTime() - now.getTime();
+    if(delay > 0 && delay < 7*24*60*60*1000){
+      setTimeout(() => {
         if(ev.done) return;
-        const tc=TC[ev.type]||TC.outros;
-        new Notification('Agenda Prática',{
-          body:`${tc.lb}: ${ev.text}`,
-          icon:'icon-192.png',
-          badge:'icon-192.png',
-          tag:ev.id
-        });
-      },delay);
+        const tc = TC[ev.type] || TC.outros;
+        new Notification('Agenda Prática', {body:`${tc.lb}: ${ev.text}`, icon:'icon-192.png', tag:ev.id});
+      }, delay);
     }
   });
 }
 
-// ═══════════════════════════════════════
-//  EVENTS ON DATE
-// ═══════════════════════════════════════
+// EVENTS ON DATE
 function eventsOn(ds){
-  const[y,m,d]=ds.split('-').map(Number);
-  return db.events.filter(ev=>{
-    if(ev.type==='aniversario'){
-      const[,bm,bd]=ev.birthdayKey.split('-');
-      return parseInt(bm)===m && parseInt(bd)===d;
+  const [y,m,d] = ds.split('-').map(Number);
+  return db.events.filter(ev => {
+    if(ev.type === 'aniversario'){
+      const [,bm,bd] = ev.birthdayKey.split('-');
+      return parseInt(bm) === m && parseInt(bd) === d;
     }
-    if(ev.repeat==='yearly'){const[,em,ed]=ev.date.split('-');return parseInt(em)===m&&parseInt(ed)===d;}
-    if(ev.repeat==='monthly'){return parseInt(ev.date.split('-')[2])===d;}
-    return ev.date===ds;
+    if(ev.repeat === 'yearly'){const [,em,ed]=ev.date.split('-');return parseInt(em)===m&&parseInt(ed)===d;}
+    if(ev.repeat === 'monthly'){return parseInt(ev.date.split('-')[2])===d;}
+    return ev.date === ds;
   });
 }
 
-// ═══════════════════════════════════════
-//  CALENDAR
-// ═══════════════════════════════════════
+// CALENDAR
 function renderCalendar(){
-  const grid=document.getElementById('calGrid');
-  document.getElementById('calTitle').textContent=`${ML[curMonth]} ${curYear}`;
-  grid.innerHTML='';
-  const t=today();
-  const firstDay=new Date(curYear,curMonth,1).getDay();
-  const daysInMonth=new Date(curYear,curMonth+1,0).getDate();
-  const daysInPrev=new Date(curYear,curMonth,0).getDate();
-  const cells=[];
+  const grid = document.getElementById('calGrid');
+  document.getElementById('calTitle').textContent = `${ML[curMonth]} ${curYear}`;
+  grid.innerHTML = '';
+  const t = today();
+  const firstDay = new Date(curYear, curMonth, 1).getDay();
+  const daysInMonth = new Date(curYear, curMonth+1, 0).getDate();
+  const daysInPrev = new Date(curYear, curMonth, 0).getDate();
+  const cells = [];
   for(let i=firstDay-1;i>=0;i--) cells.push({d:daysInPrev-i,m:curMonth-1,other:true});
   for(let d=1;d<=daysInMonth;d++) cells.push({d,m:curMonth,other:false});
-  while(cells.length<42){cells.push({d:cells.length-firstDay-daysInMonth+1,m:curMonth+1,other:true});}
+  while(cells.length<42) cells.push({d:cells.length-firstDay-daysInMonth+1,m:curMonth+1,other:true});
 
-  cells.forEach(c=>{
+  cells.forEach(c => {
     const m=((c.m%12)+12)%12, y=c.m<0?curYear-1:c.m>11?curYear+1:curYear;
     const ds=`${y}-${pad(m+1)}-${pad(c.d)}`;
     const cellDate=new Date(y,m,c.d);
@@ -644,58 +544,37 @@ function renderCalendar(){
       evs.forEach(ev=>{if(!seen.has(ev.type)){seen.add(ev.type);const dot=document.createElement('div');dot.className='dot '+(TC[ev.type]?.dc||'d-other');dots.appendChild(dot);}});
       el.appendChild(dots);
     }
-
-    // Single click → select / deselect; Double click → open add modal
-    el.addEventListener('click',()=>{
+    el.addEventListener('click', () => {
       if(c.other) return;
-      if(clickTimer){
-        clearTimeout(clickTimer);
-        clickTimer=null;
-        // double click
-        openAddModal(ds);
-        return;
+      if(selDate === ds){
+        selDate = null; renderCalendar(); hideDayPreview(); renderTodo();
+      } else {
+        selDate = ds; renderCalendar(); showDayPreview(ds); renderTodo();
       }
-      clickTimer=setTimeout(()=>{
-        clickTimer=null;
-        if(selDate===ds){
-          selDate=null;
-          lastClickedDay=null;
-          renderCalendar();
-          hideDayPreview();
-          renderTodo();
-        } else {
-          selDate=ds;
-          lastClickedDay=ds;
-          renderCalendar();
-          showDayPreview(ds);
-          renderTodo();
-        }
-      },250);
     });
-
     grid.appendChild(el);
   });
 }
 
 function hideDayPreview(){
   document.getElementById('dayPreview').style.display='none';
-  document.getElementById('todoSectionTitle').textContent='Tarefas de Trabalho';
+  document.getElementById('todoSectionTitle').textContent='Todos os Eventos';
 }
 
 function showDayPreview(ds){
-  const[y,m,d]=ds.split('-').map(Number);
-  const title=`${d} de ${ML[m-1]}`;
-  document.getElementById('depTitle').textContent=title;
-  document.getElementById('todoSectionTitle').textContent=`Trabalho — ${d}/${pad(m)}`;
+  const [y,m,d] = ds.split('-').map(Number);
+  document.getElementById('depTitle').textContent=`${d} de ${ML[m-1]}`;
+  document.getElementById('todoSectionTitle').textContent=`Eventos — ${d}/${pad(m)}`;
   const list=document.getElementById('depList');
   list.innerHTML='';
   const evs=eventsOn(ds);
-  if(!evs.length){list.innerHTML='<div style="font-size:13px;color:var(--text3);padding:4px 0 8px;">Nenhum evento neste dia · <span style="color:var(--accent);cursor:pointer" onclick="openAddModal(\''+ds+'\')">Adicionar</span></div>';
+  if(!evs.length){
+    list.innerHTML=`<div style="font-size:13px;color:var(--text3);padding:4px 0 8px;">Nenhum evento neste dia · <span style="color:var(--accent);cursor:pointer" onclick="openAddModal('${ds}')">Adicionar</span></div>`;
   } else {
     evs.forEach(ev=>{
       const tc=TC[ev.type]||TC.outros;
       const chip=document.createElement('div'); chip.className='dep-chip';
-      chip.innerHTML=`<div class="dep-dot" style="background:${tc.color}"></div><span class="dep-text">${ev.text}</span><span class="dep-arrow">›</span>`;
+      chip.innerHTML=`<div class="dep-dot" style="background:${tc.color}"></div><span class="dep-text">${tc.icon} ${ev.text}</span><span class="dep-arrow">›</span>`;
       chip.addEventListener('click',()=>openDetail(ev.id));
       list.appendChild(chip);
     });
@@ -707,13 +586,16 @@ document.getElementById('prevMonth').addEventListener('click',()=>{curMonth--;if
 document.getElementById('nextMonth').addEventListener('click',()=>{curMonth++;if(curMonth>11){curMonth=0;curYear++;}selDate=null;hideDayPreview();renderCalendar();renderTodo();});
 document.getElementById('todayBtn').addEventListener('click',()=>{const n=new Date();curYear=n.getFullYear();curMonth=n.getMonth();selDate=null;hideDayPreview();renderCalendar();renderTodo();});
 
-// ═══════════════════════════════════════
-//  TODO LIST
-// ═══════════════════════════════════════
+// TODO LIST — agora mostra TODOS os tipos incluindo aniversários
 function shouldShow(ev){
-  const t=today();
+  const t = today();
   let occ;
-  if(ev.type==='aniversario') return false; // birthdays don't go in todo
+  if(ev.type === 'aniversario'){
+    const [,mm,dd] = ev.birthdayKey.split('-');
+    occ = new Date(t.getFullYear(), parseInt(mm)-1, parseInt(dd));
+    if(occ < t) occ.setFullYear(t.getFullYear()+1);
+    return true; // sempre mostra aniversários futuros
+  }
   if(ev.repeat==='monthly'){const dd=parseInt(ev.date.split('-')[2]);occ=new Date(t.getFullYear(),t.getMonth(),dd);if(occ<t)occ=new Date(t.getFullYear(),t.getMonth()+1,dd);}
   else if(ev.repeat==='yearly'){const[,mm,dd]=ev.date.split('-');occ=new Date(t.getFullYear(),parseInt(mm)-1,parseInt(dd));if(occ<t)occ=new Date(t.getFullYear()+1,parseInt(mm)-1,parseInt(dd));}
   else occ=new Date(ev.date+'T00:00:00');
@@ -721,28 +603,45 @@ function shouldShow(ev){
   return cutoff>=t;
 }
 
+function getEventDate(ev){
+  if(ev.type==='aniversario'){
+    const t=today();
+    const[,mm,dd]=ev.birthdayKey.split('-');
+    let d=new Date(t.getFullYear(),parseInt(mm)-1,parseInt(dd));
+    if(d<t) d.setFullYear(t.getFullYear()+1);
+    return d.toISOString().slice(0,10);
+  }
+  return ev.date;
+}
+
 function getFiltered(){
-  let events=db.events.filter(ev=>ev.type==='trabalho'&&shouldShow(ev));
-  if(selDate) events=events.filter(ev=>ev.date===selDate||(ev.repeat==='monthly'&&parseInt(ev.date.split('-')[2])===parseInt(selDate.split('-')[2]))||(ev.repeat==='yearly'&&ev.date.slice(5)===selDate.slice(5)));
-  if(activeFilter==='alta') events=events.filter(e=>e.priority==='alta');
-  else if(activeFilter==='media') events=events.filter(e=>e.priority==='media');
-  else if(activeFilter==='baixa') events=events.filter(e=>e.priority==='baixa');
-  if(searchQ) events=events.filter(e=>e.text.toLowerCase().includes(searchQ.toLowerCase()));
-  return events.sort((a,b)=>a.date.localeCompare(b.date));
+  let events = db.events.filter(ev => shouldShow(ev));
+  if(selDate) events = events.filter(ev => {
+    if(ev.type==='aniversario'){
+      const[,bm,bd]=ev.birthdayKey.split('-');
+      const[,sm,sd]=selDate.split('-');
+      return bm===sm && bd===sd;
+    }
+    return ev.date===selDate||(ev.repeat==='monthly'&&parseInt(ev.date.split('-')[2])===parseInt(selDate.split('-')[2]))||(ev.repeat==='yearly'&&ev.date.slice(5)===selDate.slice(5));
+  });
+  if(activeFilter !== 'all') events = events.filter(e => e.type === activeFilter);
+  if(searchQ) events = events.filter(e => e.text.toLowerCase().includes(searchQ.toLowerCase()));
+  return events.sort((a,b) => getEventDate(a).localeCompare(getEventDate(b)));
 }
 
 function renderTodo(){
-  const list=document.getElementById('todoList'); list.innerHTML='';
-  const tasks=getFiltered();
+  const list = document.getElementById('todoList'); list.innerHTML='';
+  const tasks = getFiltered();
   if(!tasks.length){
-    list.innerHTML=`<div class="todo-empty">${selDate?'Nenhuma tarefa de trabalho neste dia':'Nenhuma tarefa de trabalho pendente'}<br><span style="font-size:12px">Use o botão + para adicionar</span></div>`;
+    list.innerHTML=`<div class="todo-empty">${selDate?'Nenhum evento neste dia':'Nenhum evento pendente'}<br><span style="font-size:12px">Use o botão + para adicionar</span></div>`;
     return;
   }
-  const ts=todayStr();
-  let lastGroup=null;
-  tasks.forEach(ev=>{
-    const g=ev.date<ts?'Atrasado':ev.date===ts?'Hoje':'Próximos';
-    if(g!==lastGroup){
+  const ts = todayStr();
+  let lastGroup = null;
+  tasks.forEach(ev => {
+    const evDate = getEventDate(ev);
+    const g = ev.type==='aniversario' ? 'Aniversários' : evDate<ts ? 'Atrasado' : evDate===ts ? 'Hoje' : 'Próximos';
+    if(g !== lastGroup){
       const gl=document.createElement('div');
       gl.className='group-label'+(g==='Atrasado'?' overdue':'');
       gl.textContent=g; list.appendChild(gl); lastGroup=g;
@@ -751,33 +650,37 @@ function renderTodo(){
     item.className='todo-item'+(ev.done?' done':'');
     const tc=TC[ev.type]||TC.outros;
     const rIcon=ev.repeat==='monthly'?' ↻m':ev.repeat==='yearly'?' ↻a':'';
+    let dateLabel='';
+    if(ev.type==='aniversario'){
+      const[,mm,dd]=ev.birthdayKey.split('-');
+      dateLabel=`${dd}/${mm}`;
+    } else {
+      dateLabel=ev.date.slice(5).replace('-','/');
+    }
     item.innerHTML=`
       <div class="check-wrap"><div class="check-circle">${ev.done?'✓':''}</div></div>
       <div class="todo-body">
-        <div class="todo-text">${ev.text}${rIcon}</div>
+        <div class="todo-text">${tc.icon} ${ev.text}${rIcon}</div>
         <div class="todo-meta">
-          <span class="tmeta-date">${ev.date.slice(5).replace('-','/')}</span>
+          <span class="tmeta-date">${dateLabel}</span>
           ${ev.priority?`<span class="tbadge tbadge-${ev.priority}">${ev.priority}</span>`:''}
+          ${ev.type==='aniversario'?'<span class="tbadge tbadge-bday">aniversário</span>':''}
         </div>
       </div>`;
-    // Check toggle on check circle only
-    item.querySelector('.check-wrap').addEventListener('click',(e)=>{e.stopPropagation();ev.done=!ev.done;saveDB();renderTodo();if(selDate)showDayPreview(selDate);scheduleLocalNotifications();});
-    // Click body → detail
+    item.querySelector('.check-wrap').addEventListener('click',(e)=>{e.stopPropagation();ev.done=!ev.done;saveDB();renderTodo();if(selDate)showDayPreview(selDate);});
     item.querySelector('.todo-body').addEventListener('click',()=>openDetail(ev.id));
     list.appendChild(item);
   });
 }
 
-document.getElementById('filterRow').addEventListener('click',e=>{
-  const chip=e.target.closest('.fchip');if(!chip)return;
+document.getElementById('filterRow').addEventListener('click', e => {
+  const chip=e.target.closest('.fchip'); if(!chip) return;
   document.querySelectorAll('.fchip').forEach(c=>c.classList.remove('active'));
-  chip.classList.add('active');activeFilter=chip.dataset.f;renderTodo();
+  chip.classList.add('active'); activeFilter=chip.dataset.f; renderTodo();
 });
-document.getElementById('searchInput').addEventListener('input',e=>{searchQ=e.target.value;renderTodo();});
+document.getElementById('searchInput').addEventListener('input', e => {searchQ=e.target.value;renderTodo();});
 
-// ═══════════════════════════════════════
-//  ADD / EDIT MODAL
-// ═══════════════════════════════════════
+// ADD/EDIT MODAL
 function updateModalType(){
   const type=document.getElementById('fType').value, isBd=type==='aniversario';
   document.getElementById('bdayNote').style.display=isBd?'block':'none';
@@ -786,8 +689,8 @@ function updateModalType(){
   document.getElementById('fgRepeat').style.display=isBd?'none':'block';
   document.getElementById('fgPriority').style.display=isBd?'none':'block';
 }
-document.getElementById('fType').addEventListener('change',updateModalType);
-document.getElementById('fAdvance').addEventListener('change',function(){
+document.getElementById('fType').addEventListener('change', updateModalType);
+document.getElementById('fAdvance').addEventListener('change', function(){
   document.getElementById('fgCustomAdv').style.display=this.value==='custom'?'block':'none';
 });
 
@@ -799,9 +702,16 @@ function openAddModal(dateStr, evToEdit){
   document.getElementById('fPriority').value='';
   document.getElementById('fAdvance').value='0';
   document.getElementById('fRepeat').value='none';
+  // Preenche a data automaticamente com o dia selecionado
   document.getElementById('fDate').value=dateStr||todayStr();
-  document.getElementById('fBdDay').value='';
-  document.getElementById('fBdMonth').value='';
+  if(dateStr){
+    const parts = dateStr.split('-');
+    document.getElementById('fBdDay').value = parseInt(parts[2]);
+    document.getElementById('fBdMonth').value = parseInt(parts[1]);
+  } else {
+    document.getElementById('fBdDay').value='';
+    document.getElementById('fBdMonth').value='';
+  }
   document.getElementById('fgCustomAdv').style.display='none';
 
   if(evToEdit){
@@ -813,8 +723,8 @@ function openAddModal(dateStr, evToEdit){
     document.getElementById('fRepeat').value=evToEdit.repeat||'none';
     if(evToEdit.type==='aniversario'){
       const[,mm,dd]=evToEdit.birthdayKey.split('-');
-      document.getElementById('fBdDay').value=dd;
-      document.getElementById('fBdMonth').value=mm;
+      document.getElementById('fBdDay').value=parseInt(dd);
+      document.getElementById('fBdMonth').value=parseInt(mm);
     } else {
       document.getElementById('fDate').value=evToEdit.date;
     }
@@ -828,38 +738,45 @@ function openAddModal(dateStr, evToEdit){
   document.getElementById('addOverlay').classList.add('open');
 }
 
-window.openAddModal=openAddModal;
+window.openAddModal = openAddModal;
 
-document.getElementById('openAddModal').addEventListener('click',()=>openAddModal(selDate||todayStr()));
-document.getElementById('cancelAdd').addEventListener('click',()=>document.getElementById('addOverlay').classList.remove('open'));
-document.getElementById('addOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('addOverlay'))document.getElementById('addOverlay').classList.remove('open');});
+document.getElementById('openAddModal').addEventListener('click', () => openAddModal(selDate||todayStr()));
+document.getElementById('cancelAdd').addEventListener('click', () => document.getElementById('addOverlay').classList.remove('open'));
+document.getElementById('addOverlay').addEventListener('click', e => {if(e.target===document.getElementById('addOverlay'))document.getElementById('addOverlay').classList.remove('open');});
 
-document.getElementById('saveEvent').addEventListener('click',()=>{
-  const type=document.getElementById('fType').value;
-  const text=document.getElementById('fText').value.trim();
-  const priority=document.getElementById('fPriority').value;
-  const repeat=type==='aniversario'?'yearly':document.getElementById('fRepeat').value;
-  let adv=document.getElementById('fAdvance').value;
+document.getElementById('saveEvent').addEventListener('click', () => {
+  const type = document.getElementById('fType').value;
+  const text = document.getElementById('fText').value.trim();
+  const priority = document.getElementById('fPriority').value;
+  const repeat = type==='aniversario'?'yearly':document.getElementById('fRepeat').value;
+  let adv = document.getElementById('fAdvance').value;
   if(adv==='custom') adv=parseInt(document.getElementById('fAdvCustom').value)||0;
   else adv=parseInt(adv)||0;
 
   if(!text){alert('Escreva uma descrição.');return;}
 
-  const editId=document.getElementById('editId').value;
-  const existing=editId?db.events.find(e=>e.id===editId):null;
+  const editId = document.getElementById('editId').value;
+  const existing = editId ? db.events.find(e=>e.id===editId) : null;
+
+  let ev;
 
   if(type==='aniversario'){
-    const dd=document.getElementById('fBdDay').value, mm=document.getElementById('fBdMonth').value;
-    if(!dd||!mm){alert('Selecione dia e mês do aniversário.');return;}
-    const bk=`--${mm}-${dd}`;
-    const ev={id:editId||genId(),type,text,birthdayKey:bk,date:`${curYear}-${mm}-${dd}`,priority:'',advance:adv,repeat:'yearly',done:existing?.done||false,createdAt:existing?.createdAt||Date.now()};
-    if(existing){const idx=db.events.indexOf(existing);db.events[idx]=ev;}else db.events.push(ev);
+    const ddVal = document.getElementById('fBdDay').value;
+    const mmVal = document.getElementById('fBdMonth').value;
+    const dd = parseInt(ddVal), mm = parseInt(mmVal);
+    if(!ddVal||!mmVal||isNaN(dd)||isNaN(mm)||dd<1||dd>31||mm<1||mm>12){
+      alert('Informe um dia (1-31) e mês (1-12) válidos.');return;
+    }
+    const ddStr=pad(dd), mmStr=pad(mm);
+    const bk=`--${mmStr}-${ddStr}`;
+    ev={id:editId||genId(),type,text,birthdayKey:bk,date:`${curYear}-${mmStr}-${ddStr}`,priority:'',advance:adv,repeat:'yearly',done:existing?.done||false,createdAt:existing?.createdAt||Date.now()};
   } else {
     const date=document.getElementById('fDate').value;
     if(!date){alert('Selecione uma data.');return;}
-    const ev={id:editId||genId(),type,text,date,priority,advance:adv,repeat,done:existing?.done||false,createdAt:existing?.createdAt||Date.now()};
-    if(existing){const idx=db.events.indexOf(existing);db.events[idx]=ev;}else db.events.push(ev);
+    ev={id:editId||genId(),type,text,date,priority,advance:adv,repeat,done:existing?.done||false,createdAt:existing?.createdAt||Date.now()};
   }
+
+  if(existing){const idx=db.events.indexOf(existing);db.events[idx]=ev;}else db.events.push(ev);
 
   saveDB();
   salvarEventoNoFirestore(ev);
@@ -870,9 +787,7 @@ document.getElementById('saveEvent').addEventListener('click',()=>{
   scheduleLocalNotifications();
 });
 
-// ═══════════════════════════════════════
-//  EVENT DETAIL
-// ═══════════════════════════════════════
+// EVENT DETAIL
 function openDetail(evId){
   const ev=db.events.find(e=>e.id===evId); if(!ev) return;
   selEventId=evId;
@@ -880,10 +795,8 @@ function openDetail(evId){
   document.getElementById('dtDot').style.background=tc.color;
   document.getElementById('dtType').textContent=`${tc.icon} ${tc.lb}`;
   document.getElementById('dtText').textContent=ev.text;
-
   const meta=document.getElementById('dtMeta'); meta.innerHTML='';
   const addMeta=(icon,text)=>{const r=document.createElement('div');r.className='detail-meta-row';r.innerHTML=`<span class="detail-meta-icon">${icon}</span><span>${text}</span>`;meta.appendChild(r);};
-
   if(ev.type==='aniversario'){
     const[,mm,dd]=ev.birthdayKey.split('-');
     addMeta('📅',`Todo ano em ${parseInt(dd)} de ${ML[parseInt(mm)-1]}`);
@@ -894,25 +807,21 @@ function openDetail(evId){
     if(ev.advance>0) addMeta('⏰',`Aviso ${ev.advance} dia(s) antes`);
   }
   addMeta(ev.done?'✅':'⏳',ev.done?'Concluído':'Pendente');
-
   document.getElementById('detailOverlay').classList.add('open');
 }
 
 document.getElementById('closeDetail').addEventListener('click',()=>document.getElementById('detailOverlay').classList.remove('open'));
 document.getElementById('detailOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('detailOverlay'))document.getElementById('detailOverlay').classList.remove('open');});
-
 document.getElementById('editEventBtn').addEventListener('click',()=>{
   const ev=db.events.find(e=>e.id===selEventId); if(!ev) return;
   document.getElementById('detailOverlay').classList.remove('open');
   openAddModal(ev.date, ev);
 });
-
 document.getElementById('deleteEventBtn').addEventListener('click',()=>{
   const ev=db.events.find(e=>e.id===selEventId); if(!ev) return;
   const isRecurring=ev.repeat!=='none'||ev.type==='aniversario';
-  showConfirm(
-    'Deletar evento',
-    isRecurring?`"${ev.text}" é um evento recorrente. Isso removerá todas as ocorrências futuras.`:`Tem certeza que deseja deletar "${ev.text}"?`,
+  showConfirm('Deletar evento',
+    isRecurring?`"${ev.text}" é recorrente. Isso removerá todas as ocorrências.`:`Deletar "${ev.text}"?`,
     ()=>{
       db.events=db.events.filter(e=>e.id!==selEventId);
       saveDB();
@@ -925,9 +834,7 @@ document.getElementById('deleteEventBtn').addEventListener('click',()=>{
   );
 });
 
-// ═══════════════════════════════════════
-//  CONFIRM DIALOG
-// ═══════════════════════════════════════
+// CONFIRM DIALOG
 let confirmCallback=null;
 function showConfirm(title,msg,onOk){
   confirmCallback=onOk;
@@ -945,34 +852,12 @@ document.getElementById('confirmCancel').addEventListener('click',hideConfirm);
 document.getElementById('confirmOk').addEventListener('click',()=>{if(confirmCallback)confirmCallback();hideConfirm();});
 document.getElementById('confirmOverlay').addEventListener('click',hideConfirm);
 
-// ═══════════════════════════════════════
-//  SERVICE WORKER REGISTRATION
-// ═══════════════════════════════════════
+// SERVICE WORKER
 if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./sw.js').then(reg=>{
-    console.log('SW registered');
-  }).catch(e=>console.warn('SW error:',e));
+  navigator.serviceWorker.register('./sw.js').then(()=>console.log('SW registered')).catch(e=>console.warn('SW error:',e));
 }
 
-// ═══════════════════════════════════════
-//  SEED DATA
-// ═══════════════════════════════════════
-if(!db.events.length){
-  const n=new Date(), ts=todayStr();
-  const tom=new Date(n);tom.setDate(tom.getDate()+1);const t2=tom.toISOString().slice(0,10);
-  const nxt=new Date(n);nxt.setDate(nxt.getDate()+4);const t3=nxt.toISOString().slice(0,10);
-  db.events=[
-    {id:genId(),type:'trabalho',text:'Reunião de planejamento sprint',date:ts,priority:'alta',advance:0,repeat:'none',done:false,createdAt:Date.now()},
-    {id:genId(),type:'aniversario',text:'Aniversário da Maria',birthdayKey:`--${pad(n.getMonth()+1)}-${pad(tom.getDate())}`,date:t2,priority:'',advance:1,repeat:'yearly',done:false,createdAt:Date.now()},
-    {id:genId(),type:'prova',text:'Prova de Cálculo 2 — sala B3',date:t3,priority:'alta',advance:2,repeat:'none',done:false,createdAt:Date.now()},
-    {id:genId(),type:'trabalho',text:'Relatório mensal de vendas',date:t3,priority:'media',advance:0,repeat:'monthly',done:false,createdAt:Date.now()}
-  ];
-  saveDB();
-}
-
-// ═══════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════
+// INIT
 applyTheme();
 renderCalendar();
 renderTodo();
