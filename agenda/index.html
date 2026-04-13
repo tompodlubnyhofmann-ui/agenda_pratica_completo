@@ -532,7 +532,31 @@ async function registrarTokenNoBackend(token){
     console.warn('⚠️  Não conseguiu registrar token no backend (pode estar offline):', error.message);
   }
 }
+async function salvarEventoNoFirestore(evento){
+  try {
+    await fetch(`${BACKEND_URL}/api/save-event`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: db.userId, event: evento })
+    });
+    console.log('✅ Evento salvo no Firestore:', evento.id);
+  } catch(e) {
+    console.warn('⚠️ Erro ao salvar evento:', e.message);
+  }
+}
 
+async function deletarEventoDoFirestore(eventId){
+  try {
+    await fetch(`${BACKEND_URL}/api/save-event`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: db.userId, eventId: eventId, action: 'delete' })
+    });
+    console.log('✅ Evento deletado do Firestore:', eventId);
+  } catch(e) {
+    console.warn('⚠️ Erro ao deletar evento:', e.message);
+  }
+}
 document.getElementById('enableNotifBtn').addEventListener('click', requestNotifPermission);
 document.getElementById('notifBtn').addEventListener('click', requestNotifPermission);
 
@@ -834,6 +858,7 @@ document.getElementById('saveEvent').addEventListener('click',()=>{
   }
 
   saveDB();
+  salvarEventoNoFirestore(ev);
   document.getElementById('addOverlay').classList.remove('open');
   renderCalendar();
   if(selDate)showDayPreview(selDate);
@@ -887,6 +912,7 @@ document.getElementById('deleteEventBtn').addEventListener('click',()=>{
     ()=>{
       db.events=db.events.filter(e=>e.id!==selEventId);
       saveDB();
+      deletarEventoDoFirestore(selEventId);
       document.getElementById('detailOverlay').classList.remove('open');
       renderCalendar();
       if(selDate)showDayPreview(selDate);
