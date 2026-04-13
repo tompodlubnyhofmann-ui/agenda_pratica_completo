@@ -503,13 +503,16 @@ function scheduleLocalNotifications(){
 
 // EVENTS ON DATE
 function eventsOn(ds){
-  const [y,m,d] = ds.split('-').map(Number);
+  const parts = ds.split('-').map(Number);
+  const y = parts[0], m = parts[1], d = parts[2];
   return db.events.filter(ev => {
     if(ev.type === 'aniversario'){
-      const [,bm,bd] = ev.birthdayKey.split('-');
-      return parseInt(bm) === m && parseInt(bd) === d;
+      if(!ev.birthdayKey) return false;
+      const bparts = ev.birthdayKey.split('-');
+      const bm = parseInt(bparts[1]), bd = parseInt(bparts[2]);
+      return bm === m && bd === d;
     }
-    if(ev.repeat === 'yearly'){const [,em,ed]=ev.date.split('-');return parseInt(em)===m&&parseInt(ed)===d;}
+    if(ev.repeat === 'yearly'){const ep=ev.date.split('-');return parseInt(ep[1])===m&&parseInt(ep[2])===d;}
     if(ev.repeat === 'monthly'){return parseInt(ev.date.split('-')[2])===d;}
     return ev.date === ds;
   });
@@ -689,7 +692,14 @@ function updateModalType(){
   document.getElementById('fgRepeat').style.display=isBd?'none':'block';
   document.getElementById('fgPriority').style.display=isBd?'none':'block';
 }
-document.getElementById('fType').addEventListener('change', updateModalType);
+document.getElementById('fType').addEventListener('change', function(){
+  updateModalType();
+  if(this.value === 'aniversario' && selDate){
+    const parts = selDate.split('-');
+    document.getElementById('fBdDay').value = parseInt(parts[2]);
+    document.getElementById('fBdMonth').value = parseInt(parts[1]);
+  }
+});
 document.getElementById('fAdvance').addEventListener('change', function(){
   document.getElementById('fgCustomAdv').style.display=this.value==='custom'?'block':'none';
 });
